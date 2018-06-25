@@ -1,10 +1,14 @@
 const path = require('path');
-var htmlWebpackPlugin = require('html-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-	entry: ['./src/js/app.js'],
+	entry: {
+        app: './src/js/app.js',
+        admin: './src/js/admin.js'
+    },
 	output: {
-		filename: 'js/bundle.js',
+		filename: 'js/[name].js',
 		path: path.resolve(__dirname, 'dist/')
 	},
 	module: {
@@ -44,6 +48,10 @@ module.exports = {
                 }]
 			},
             {
+                test: /\.(woff|woff2|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'file-loader?name=fonts/[name].[ext]'
+            },
+            {
             　　test: /\.html$/,
             　　loader: 'html-withimg-loader'
             },
@@ -64,9 +72,16 @@ module.exports = {
 		poll: 1000
 	},
 	plugins:[
-        new htmlWebpackPlugin({
+        new HtmlWebpackPlugin({
             //注意传的参数是一个对象
-            template:'./src/index.html'   //传一个模板，就是根目录下的index.html
+            template:'./src/index.html',   //传一个模板，就是根目录下的index.html
+            chunks: ['app'],//需要引入的chunk，不配置就会引入所有页面的资源
+        }),
+        new HtmlWebpackPlugin({ //根据模板插入css/js等生成最终HTML
+            filename: './admin.html', //生成的html存放路径，相对于path
+            template: './src/admin.html', //html模板路径
+            hash: true, //为静态资源生成hash值
+            chunks: ['admin'],//需要引入的chunk，不配置就会引入所有页面的资源
         })
     ]
 };
