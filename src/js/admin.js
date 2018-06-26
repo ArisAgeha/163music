@@ -1,2 +1,2 @@
-require('./admin-leancloud.js');
-require('./qiniu.js');
+require('./admin/admin-leancloud.js');
+require('./admin/qiniu.js');

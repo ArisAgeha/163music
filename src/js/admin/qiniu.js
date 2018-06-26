@@ -1,5 +1,5 @@
-var qiniu = require('qiniu-js')
-var uploader = Qiniu.uploader({
+let qiniu = require('qiniu-js')
+let uploader = Qiniu.uploader({
         runtimes: 'html5',    //上传模式,依次退化
         browse_button: 'xxx',       //上传选择的点选按钮，**必需**
         uptoken_url : 'http://localhost:8888/uptoken',
@@ -32,10 +32,17 @@ var uploader = Qiniu.uploader({
                 //  }
                 // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
 
-                var domain = up.getOption('domain');
-                var res = JSON.parse(info.response);
-                var sourceLink = domain + res.key;
-                console.log(sourceLink);
+                let domain = up.getOption('domain');
+                let res = JSON.parse(info.response);
+                let sourceLink = 'http://' + domain + '/' + encodeURIComponent(res.key);
+                let musicInfo = res.key.split('-');
+
+                let size = parseFloat(file.size / 1024 / 1024).toFixed(2);
+                let artise = musicInfo[0]? musicInfo[0].trim() : undefined;
+                let musicName = musicInfo[1]? musicInfo[1].trim().slice(0, musicInfo[1].lastIndexOf('.') - 1) : undefined;
+                let id = res.hash;
+
+                uploadStatus.textContent = sourceLink + '\r\n' + artise + '\r\n' + musicName;
             },
             'Error': function(up, err, errTip) {
                 //上传出错时,处理相关的事情
