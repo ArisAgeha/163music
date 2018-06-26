@@ -1,1 +1,2 @@
-require('../css/style.scss');
+require('./admin-leancloud.js');
+require('./qiniu.js');

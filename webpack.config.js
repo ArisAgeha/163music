@@ -8,8 +8,8 @@ module.exports = {
         admin: './src/js/admin.js'
     },
 	output: {
-		filename: 'js/[name].js',
-		path: path.resolve(__dirname, 'dist/')
+		filename: 'dist/js/[name].js',
+		path: path.resolve(__dirname, './')
 	},
 	module: {
 		rules: [
