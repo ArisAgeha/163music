@@ -76,10 +76,34 @@ let AV = require('./admin-leancloud.js');
         },
 
         bindEvent() {
+            // 点击切换歌单列表
             let $el = $(this.view.el);
             $el.find('.musicList').on('click', 'li', (e) => {
                 $(e.currentTarget).addClass('active').siblings().removeClass('active');
             })
+
+            let clcreator = $el.find('.mask > .clCreator-mask');
+            $el.find('.createList').on('click', (e) => {
+                clcreator.addClass('show');
+
+                clcreator.find('.cl-cancel').on('click', function() {
+                    clcreator.removeClass('show');
+                    $(this).unbind();
+                })
+
+                clcreator.find('.cl-confirm').on('click', () => {
+                    let tipsArea = clcreator.find('.textHolder');
+                    let input = clcreator.find('input').val().trim();
+                    if (input === '') {
+                        tipsArea.text('请输入歌单名');
+                    } else {
+                        clcreator.removeClass('show');
+                        this.addCollectionList(input);
+                        clcreator.find('.cl-confirm').unbind();
+                    }  
+                })
+            })
+
         },
 
         async addCollectionList(collectionName) {
