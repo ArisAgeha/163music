@@ -45,12 +45,21 @@ let AV = require('./admin-leancloud.js');
             })
         },
 
+        render(collection) {
+            let key = collection.collectionName;
+            let val = collection.songList;
+            let obj = {};
+            obj[key] = val;
+            Object.assign(this.collectionList, obj);
+            console.log(this.collectionList)
+        },
+
         createLeanCloudBucket(collectionName){
             let Collection = AV.Object.extend('CollectionList');
             let collection = new Collection();
             collection.save({
                 'collectionName': collectionName,
-                'songListt': []
+                'songList': []
             }).then(function(object) {
                 console.log('储存成功！');
             })
@@ -71,7 +80,10 @@ let AV = require('./admin-leancloud.js');
                 for (let i = 0; i < list.length; i++) {
                     let collectionName = list[i].attributes.collectionName;
                     this.view.render(collectionName);
+                    this.model.render(list[i].attributes)
                 }
+            }, (err) => {
+                console.log(err)    
             })
         },
 
@@ -94,6 +106,8 @@ let AV = require('./admin-leancloud.js');
                 clcreator.find('.cl-confirm').on('click', () => {
                     let tipsArea = clcreator.find('.textHolder');
                     let input = clcreator.find('input').val().trim();
+                    console.log(tipsArea);
+                    console.log(input)
                     if (input === '') {
                         tipsArea.text('请输入歌单名');
                     } else {
@@ -108,7 +122,14 @@ let AV = require('./admin-leancloud.js');
 
         async addCollectionList(collectionName) {
             let success = await this.model.checkNameDuplicate(collectionName);
-            if (success) this.view.render(collectionName);
+            if (success) {
+                this.view.render(collectionName);   
+                let obj = {
+                    'collectionName': collectionName,
+                    songList: []
+                };
+                this.model.render(obj);
+            }
             else this.view.throwErrTips();
         }
     }
