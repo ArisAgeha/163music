@@ -9,14 +9,35 @@
     box-sizing: border-box;
 }
 
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+input {
+    outline:none;
+    color: rgb(85, 85, 85);
+}
+
 body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     font-size: 14px;
     line-height: 1.428;
     font-family: core_sans,"Avenir Next","Helvetica Neue",Helvetica,Arial,"PingFang SC","Source Han Sans SC","Hiragino Sans GB","Microsoft YaHei","WenQuanYi MicroHei",sans-serif;
-    color: #5e6166;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
+    color: #7a8599;
     height: 62px;
     display: flex;
     justify-content: space-between;
@@ -27,8 +48,225 @@ header {
 
 main {
     display: flex;
+    flex: 1;
 
     .listPanel {
         width: 240px;
+        border-right: 1px solid #e6e9f0;
+        display: flex;
+        flex-direction: column;
+
+        .listController {
+            text-align: center;
+            padding-top : 27px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            margin-right: -1px;
+
+            .createList {
+                width: 160px;
+                height: 32px;
+                line-height: 32px;
+                border: 1px solid rgba(25,137,250,.4);
+                background-color: rgba(25,137,250,.04);
+                border-radius: 999px;
+                color: #1989fa;
+                margin-bottom: 14px;
+            }
+
+            .searchList {
+                width: 160px;
+                height: 32px;
+                line-height: 32px;
+                margin-bottom: 24px;
+                
+                input {
+                    font-size: 12px;
+                    text-align: center;
+                    width: 160px;
+                    padding: 5px 25px 5px 25px;
+                    height: 32px;
+                    border-radius: 999px;
+                    border: 1px solid rgb(204, 204, 204);
+                }
+            }
+        }
+
+        .musicList-wrapper {
+            display: flex;
+            flex-direction: column;
+            color: #5e6166;
+            margin-right: -1px;
+
+            > div {
+                margin: 20px 40px;
+            }
+
+            .musicList {
+                margin-left: 45px;
+
+                li {
+                    color: #8d9199;
+                    height: 45px;
+                    display:flex;
+                    align-items:center;
+                }
+
+                li.active {
+                    color: #1989fa;
+                    border-right: 1px solid #fff;
+                    border-top: 1px solid #e6e9f0;
+                    border-bottom: 1px solid #e6e9f0;
+                }
+            }
+        }
+    }
+
+    .mainPanel {
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 980px;
+
+        .detailController {
+            min-height: 36px;
+            display: flex;
+            justify-content: space-between;
+
+            .detailController-left {
+                display: flex;
+                
+                > div {
+                    font-size: 12px;
+                    padding: 0 15px;
+                    margin-left: 15px;
+                    line-height: 34px;
+                    height: 34px;
+                    border: 1px solid rgba(94, 97, 102, 0.4);
+                    border-radius: 4px;
+                    transition-duration: 0.15s;
+                }
+
+                > div:hover {
+                    border: 1px solid rgba(94, 97, 102, 0.8);
+                }
+
+                div:last-child {
+                    border: none;
+                    font-size: 14px;
+                }
+
+                .saveButton {
+                    color: rgb(20, 218, 37);
+                    background-color: rgba(15, 245, 35, 0.06);
+                    border-color: rgb(20, 218, 37);
+                    margin: 0;
+                }
+
+                .uploadButton {
+                    color: #1989fa;
+                    background-color: rgba(25,137,250,.04);
+                    border-color: rgba(25,137,250,.4);
+                }
+
+                .deleteButton {
+                    color: rgb(255,97,97);
+                    background-color: rgba(255,240,240,0.4);
+                    border-color: rgb(255,97,97);
+                }
+            }
+
+            .detailController-right {
+
+                .searchMusic {
+                    width: 200px;
+
+                    input {
+                        width: 100%;
+                        height: 42px;
+                        line-height: 42px;
+                        text-align: center;
+                        border-radius: 4px;
+                        border: 1px solid #dde1eb;
+                    }
+                }
+            }
+        }
+
+        .listDetail {
+            overflow: auto;
+            margin-top: 20px;
+            table {
+                width: 100%;
+                max-width: 100%;
+                border-spacing: 0;
+
+                thead {
+                    tr {
+                        text-align: left;
+
+                        th {
+                            padding: 10px 0;
+                            font-weight: 500;
+                            color: #8f9bb3;
+                            border-bottom: 1px solid #e1e6f0;
+                        }
+
+                        .td-checkbox {
+                            width: 32px;
+                            text-align: center;
+                        }
+
+                        .songName-title {
+                            width: 25%;
+                        }
+
+                        .artist-title {
+                            width: 15%;
+                        }
+
+                        .album-title {
+                            width: 15%
+                        }
+
+                        .link-title {
+                            width: 20%
+                        }
+
+                        .size-tile {
+                            width: 15%
+                        }
+
+                        .status-title {
+                            width: 10%;
+                        }
+
+
+                    }
+                }
+
+                tbody {
+                    tr {
+                        td {
+                            padding: 10px 0;
+                            color: rgb(94, 97, 102);
+                            border-bottom: 1px solid #e1e6f0;
+                            position: relative;
+                        }
+                    }
+                }
+            }
+        }
+        
     }
 }
+
+
+
+
+
+
+
