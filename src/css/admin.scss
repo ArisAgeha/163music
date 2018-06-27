@@ -310,6 +310,13 @@ main {
                                 display: inline-block;
                             }
                         }
+
+                        .td-checkbox {
+                            text-align: center;
+                            input {
+                                vertical-align: middle;
+                            }
+                        }
                     }
                     tr.unsaved {
                         background-color: rgba(255,240,240,0.6);

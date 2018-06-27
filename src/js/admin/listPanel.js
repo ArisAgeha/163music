@@ -11,7 +11,24 @@ let $ = require('jquery');
         }
     }
 
-    let model = {}
+    let model = {
+    
+    }
 
-    let controller = {}
+    let controller = {
+        init(view, model) {
+            this.view = view,
+            this.model = model,
+            this.bindEvent() 
+        },
+
+        bindEvent() {
+            let $el = $(this.view.el);
+            $el.find('.musicList').on('click', 'li', (e) => {
+                $(e.currentTarget).addClass('active').siblings().removeClass('active');
+            })
+        }
+    }
+
+    controller.init(view, model);
 }
