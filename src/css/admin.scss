@@ -203,6 +203,9 @@ main {
                 width: 100%;
                 max-width: 100%;
                 border-spacing: 0;
+                TABLE-LAYOUT: fixed;
+                word-break: break-all;
+                border-collapse: collapse;
 
                 thead {
                     tr {
@@ -255,6 +258,12 @@ main {
                             color: rgb(94, 97, 102);
                             border-bottom: 1px solid #e1e6f0;
                             position: relative;
+                            white-space: nowrap;
+                            > span {
+                                overflow:hidden;
+                                width: 60%;
+                                display: inline-block;
+                            }
                         }
                     }
                 }
