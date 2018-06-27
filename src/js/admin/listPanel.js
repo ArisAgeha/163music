@@ -9,6 +9,10 @@ let AV = require('./admin-leancloud.js');
             let $el = $(this.el);
             let li = $('<li></li>').html(collectionName);
             $el.find('.musicList').prepend(li).children().eq(0).addClass('active').siblings().removeClass('active');
+        },
+
+        throwErrTips() {
+            $(this.el).find('.dupErrTips').addClass('show');
         }
     }
 
@@ -50,7 +54,18 @@ let AV = require('./admin-leancloud.js');
         init(view, model) {
             this.view = view,
             this.model = model,
-            this.bindEvent() 
+            this.getList(),
+            this.bindEvent()
+        },
+
+        getList() {
+            let queryList = new AV.Query('CollectionList');
+            queryList.find().then((list) => {
+                for (let i = 0; i < list.length; i++) {
+                    let collectionName = list[i].attributes.collectionName;
+                    this.view.render(collectionName);
+                }
+            })
         },
 
         bindEvent() {
@@ -62,12 +77,10 @@ let AV = require('./admin-leancloud.js');
 
         async addCollectionList(collectionName) {
             let success = await this.model.checkNameDuplicate(collectionName);
-            console.log('success'+ success)
             if (success) this.view.render(collectionName);
-            else console.log('nope!!!!!!')
+            else this.view.throwErrTips();
         }
     }
 
     controller.init(view, model);
-    controller.addCollectionList('test11222')
 }
