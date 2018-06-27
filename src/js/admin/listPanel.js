@@ -90,5 +90,4 @@ let AV = require('./admin-leancloud.js');
     }
 
     controller.init(view, model);
-    controller.addCollectionList('testlisttt')
 }
