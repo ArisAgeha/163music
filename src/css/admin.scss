@@ -159,7 +159,11 @@ main {
             .detailController-left {
                 display: flex;
                 
-                > div {
+                .saveButton,
+                .uploadButton,
+                .deleteButton,
+                .selectAll,
+                .statistics {
                     font-size: 12px;
                     padding: 0 15px;
                     margin-left: 15px;
@@ -167,18 +171,14 @@ main {
                     height: 34px;
                     border: 1px solid rgba(94, 97, 102, 0.4);
                     border-radius: 4px;
-                    transition-duration: 0.15s;
+                    transition-duration: 0.35s;
                     cursor: pointer;
                 }
 
-                > div:hover {
-                    border: 1px solid rgba(94, 97, 102, 0.8);
-                }
-
-                div:last-child {
-                    border: none;
+                .statistics {
                     font-size: 14px;
                     cursor: initial;
+                    border: none;
                 }
 
                 .saveButton {
@@ -187,17 +187,31 @@ main {
                     border-color: rgb(20, 218, 37);
                     margin: 0;
                 }
+                .saveButton:hover {
+                    background-color: rgba(15, 245, 35, 0.2);
+                    
+                }
 
                 .uploadButton {
                     color: #1989fa;
                     background-color: rgba(25,137,250,.04);
                     border-color: rgba(25,137,250,.4);
                 }
+                .uploadButton:hover {
+                    background-color: rgba(25,137,250,.2);
+                }
 
                 .deleteButton {
                     color: rgb(255,97,97);
                     background-color: rgba(255,240,240,0.4);
                     border-color: rgb(255,97,97);
+                }
+                .deleteButton:hover {
+                    background-color: rgb(255,240,240);
+                }
+
+                .selectAll:hover {
+                    border: 1px solid rgba(94, 97, 102, 0.8);
                 }
             }
 
@@ -289,6 +303,7 @@ main {
                             white-space: nowrap;
                             > span {
                                 overflow:hidden;
+                                vertical-align: middle;
                                 width: 60%;
                                 display: inline-block;
                             }

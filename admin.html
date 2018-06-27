@@ -33,11 +33,11 @@
             </div>
         </div>
 
-        <div class="mainPanel">
+        <div id="mainPanel" class="mainPanel">
             <div class="detailController">
                 <div class="detailController-left">
                     <div class="saveButton">保存信息</div>
-                    <div class="uploadButton">上传歌曲</div>
+                    <div id="upload" class="uploadButton">上传歌曲</div>
                     <div class="deleteButton">删除</div>
                     <div class="selectAll">全选</div>
                     <div class="statistics">共 ${countSongNum} 首歌</div>
@@ -71,12 +71,12 @@
                     <tbody>
                         <tr>
                             <td class="td-checkbox"><input type="checkbox"></td>
-                            <td><span>About me</span></td>
-                            <td><span>茶理理</span></td>
-                            <td><span>100热榜</span></td>
-                            <td><span>http://www.baidu.com</span></td>
-                            <td>2.75MB</td>
-                            <td>已保存</th>
+                            <td class="name-td"><span>About me</span></td>
+                            <td class="artist-td"><span>茶理理</span></td>
+                            <td class="album-td"><span>100热榜</span></td>
+                            <td class="link-td"><span>http://www.baidu.com</span></td>
+                            <td class="size-td">2.75MB</td>
+                            <td class="status-td">已保存</th>
                         </tr>
                         <tr class="unsaved">
                             <td class="td-checkbox"><input type="checkbox"></td>
@@ -92,5 +92,5 @@
             </div>
         </div>
     </main>
-<script type="text/javascript" src="dist/js/admin.js?45c5c2936da715546cb9"></script></body>
+<script type="text/javascript" src="dist/js/admin.js?1bd75d5c47eb73e5f25a"></script></body>
 </html>
