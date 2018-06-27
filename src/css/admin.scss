@@ -87,6 +87,7 @@ main {
                 border-radius: 999px;
                 color: #1989fa;
                 margin-bottom: 14px;
+                cursor: pointer;
             }
 
             .searchList {
@@ -130,6 +131,7 @@ main {
                     height: 45px;
                     display:flex;
                     align-items:center;
+                    cursor: pointer;
                 }
 
                 li.active {
@@ -166,6 +168,7 @@ main {
                     border: 1px solid rgba(94, 97, 102, 0.4);
                     border-radius: 4px;
                     transition-duration: 0.15s;
+                    cursor: pointer;
                 }
 
                 > div:hover {
@@ -175,6 +178,7 @@ main {
                 div:last-child {
                     border: none;
                     font-size: 14px;
+                    cursor: initial;
                 }
 
                 .saveButton {
@@ -272,8 +276,6 @@ main {
                         .status-title {
                             width: 10%;
                         }
-
-
                     }
                 }
 
@@ -292,16 +294,12 @@ main {
                             }
                         }
                     }
+                    tr.unsaved {
+                        background-color: rgba(255,240,240,0.6);
+                    }
                 }
             }
         }
         
     }
 }
-
-
-
-
-
-
-
