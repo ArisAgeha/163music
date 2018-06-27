@@ -12,7 +12,14 @@ let AV = require('./admin-leancloud.js');
         },
 
         throwErrTips() {
-            $(this.el).find('.dupErrTips').addClass('show');
+            console.log('-----')
+            let tips = $(this.el).find('.dupErrTips');
+            console.log(tips)
+
+            tips.addClass('show');
+            setTimeout(()=> {
+                tips.removeClass('show');
+            }, 3000)
         }
     }
 
@@ -83,4 +90,5 @@ let AV = require('./admin-leancloud.js');
     }
 
     controller.init(view, model);
+    controller.addCollectionList('testlisttt')
 }

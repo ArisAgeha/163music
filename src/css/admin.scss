@@ -69,6 +69,28 @@ main {
         display: flex;
         flex-direction: column;
 
+        .dupErrTips {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(255,240,240,0);
+            height: 60px;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: transparent;
+            pointer-events: none;
+            transition-duration: 2s;
+            font-size: 18px;
+        }
+
+        .dupErrTips.show {
+            background-color: rgba(255,240,240,0.9);
+            color: red;
+        }
+
         .listController {
             text-align: center;
             padding-top : 27px;
