@@ -1,3 +1,4 @@
+/*
 CollectionList ['JPOP', '纯音乐', '翻唱'];
 
 JPOP {
@@ -17,4 +18,20 @@ JPOP {
             size: '',
         }
 	],
+}
+*/
+
+{
+    let model = {
+        
+    }
+    let view = {
+        a: 1,
+    }
+    let controller = {
+        test() {
+            console.log(view.a);
+        }
+    }
+    controller.test();
 }

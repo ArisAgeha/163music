@@ -18,11 +18,6 @@ let uploader = Qiniu.uploader({
                     let musicName = musicInfo[1]? musicInfo[1].trim().slice(0, musicInfo[1].lastIndexOf('.') - 1) : undefined;
                     let artise = musicInfo[0]? musicInfo[0].trim() : undefined;
                     let size = parseFloat(file.size / 1024 / 1024).toFixed(2) + 'MB';
-
-                    console.log(artise);
-                    console.log(musicName);
-                    console.log(size);
-                    console.log('-----')
                 });
             },
             'BeforeUpload': function(up, file) {
