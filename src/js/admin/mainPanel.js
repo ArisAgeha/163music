@@ -1,6 +1,7 @@
 let $ = require('jquery');
 let AV = require('./admin-leancloud.js');
 let eventHub = require('./eventHub.js');
+let dataHub = require('./dataHub.js');
 
 {
     let view = {
@@ -21,9 +22,9 @@ let eventHub = require('./eventHub.js');
             this.songList = {}
         },
 
-        requireSongList() {
+        async requireSongList() {
             let queryList = new AV.Query('SongList');
-            queryList.find().then((list) => {
+            await queryList.find().then((list) => {
                 for (let i = 0; i < list.length; i++) {
                     let obj = {...list[i].attributes};
                     let id = list[i].id;
@@ -32,20 +33,25 @@ let eventHub = require('./eventHub.js');
             }, (err) => {
                 console.log(err)    
             })
-            
         },
     };
 
     let controller = {
-        init(view, model) {
+        async init(view, model) {
             this.view = view;
             this.model = model;
-            this.getSongList();
+            await this.getSongList();
+            this.initView();
             this.bindEvent();
         },
 
-        getSongList() {
-            this.model.requireSongList();
+        async getSongList() {
+            await this.model.requireSongList();
+        },
+
+        initView() {
+            let currentList = dataHub.get('currentList');
+            $(this.view.el).find('._' + `${currentList}`).addClass('show').siblings().removeClass('show');
         },
         
         bindEvent() {
@@ -56,18 +62,30 @@ let eventHub = require('./eventHub.js');
         watchAddList() {
             // {songList: [id1, id2, id3...]}
             eventHub.on('addCollection', (data) => {
-                let tbody = $('tbody');
-                for(let songID of data) {
-                    let songInfo = this.model.songList.songID;
-                    let trString = this.view.template
-                        .replace('__name__', songInfo.name);
-                        .replace('__artist__', songInfo.artist);
-                        .replace('__album__', songInfo.album);
-                        .replace('__link__', songInfo.link);
-                        .replace('__size', songInfo.size);
-                        .replace('__saveStatus__', '已保存')
-                    let tr = $(trString);
-                    tbody.append(tr);
+                for (let key in data) {
+                    let tbody = $(`<tbody class=_${key}></tbody>`);
+
+                    for(let songID of data[key]) {
+                        console.log(songID)
+                        let songInfo = this.model.songList[songID];
+                        console.log('1---------------')
+                        console.log(JSON.stringify(this.model.songList))
+                        console.log(songID)
+                        console.log(this.model.songList[songID])
+                        let trString = this.view.template
+                        .replace('__name__', songInfo.name)
+                        .replace('__artist__', songInfo.artist)
+                        .replace('__album__', songInfo.album)
+                        .replace('__link__', songInfo.link)
+                        .replace('__size', songInfo.size)
+                        .replace('__saveStatus__', '已保存');
+                        console.log(trString);
+                        console.log('2----------------')
+                        let tr = $(trString);
+                        tbody.append(tr);
+                    }
+                    console.log('------')
+                    console.log(tbody);
                 }
             })
         },

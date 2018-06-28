@@ -1,14 +1,17 @@
 let $ = require('jquery');
 let AV = require('./admin-leancloud.js');
 let eventHub = require('./eventHub.js');
+let dataHub = require('./dataHub.js');
+
 {
     let view = {
         el: '#listPanel',
         template: '',
 
-        render(collectionName) {
-            collectionName.addClass('active').siblings().removeClass('active');
-            eventHub.emit('switchCollection', collectionName.text());
+        render(collectionElement) {
+            collectionElement.addClass('active').siblings().removeClass('active');
+            eventHub.emit('switchCollection', collectionElement.text());
+            dataHub.set('currentList', collectionElement.text());
         },
 
         addList(collectionName) {
@@ -74,6 +77,7 @@ let eventHub = require('./eventHub.js');
         init(view, model) {
             this.view = view,
             this.model = model,
+            dataHub.set('collectionList', this.model.collectionList);
             this.getList(),
             this.bindEvent()
         },
@@ -96,6 +100,7 @@ let eventHub = require('./eventHub.js');
             let $el = $(this.view.el);
             $el.find('.musicList').on('click', 'li', (e) => {
                 this.view.render($(e.currentTarget));
+                console.log(this.model.collectionList);
             })
 
             let clcreator = $el.find('.mask > .clCreator-mask');
@@ -110,8 +115,6 @@ let eventHub = require('./eventHub.js');
                 clcreator.find('.cl-confirm').on('click', () => {
                     let tipsArea = clcreator.find('.textHolder');
                     let input = clcreator.find('input').val().trim();
-                    console.log(tipsArea);
-                    console.log(input)
                     if (input === '') {
                         tipsArea.text('请输入歌单名');
                     } else {
