@@ -86,6 +86,21 @@ let dataHub = require('./dataHub.js');
         bindEvent() {
             this.watchAddList();
             this.watchSwitchList();
+            eventHub.on('uploadstart', (data) => {
+                addSongView.call(this, data);
+            })
+
+            function addSongView(data) {
+                let currentListName = dataHub.get('currentList');
+                let currentList = $(this.view.el).find('._' + currentListName);
+                let trString = this.view.template
+                    .replace('__name__', data.name)
+                    .replace('__artist__', data.artist)
+                    .replace('__size__', data.size)
+                    .replace('__saveStatus__', data.saveStatus);
+                let tr = $(trString);
+                currentList.prepend(tr);
+            }
         },
 
         watchAddList() {
@@ -103,6 +118,7 @@ let dataHub = require('./dataHub.js');
                 $el.find('._' + `${data}`).addClass('show').siblings().removeClass('show');
             })
         }
+
     };
     model.init();
     controller.init(view, model);

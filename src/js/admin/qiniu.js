@@ -1,4 +1,5 @@
-let qiniu = require('qiniu-js')
+let qiniu = require('qiniu-js');
+let eventHub = require('./eventHub.js');
 let uploader = Qiniu.uploader({
         runtimes: 'html5',    //上传模式,依次退化
         browse_button: 'upload',       //上传选择的点选按钮，**必需**
@@ -15,9 +16,19 @@ let uploader = Qiniu.uploader({
                     // 文件添加进队列后,处理相关的事情
                     console.log(file);
                     let musicInfo = file.name.split('-');
-                    let musicName = musicInfo[1]? musicInfo[1].trim().slice(0, musicInfo[1].lastIndexOf('.') - 1) : undefined;
+                    let name = musicInfo[1]? musicInfo[1].trim().slice(0, musicInfo[1].lastIndexOf('.') - 1) : undefined;
                     let artise = musicInfo[0]? musicInfo[0].trim() : undefined;
                     let size = parseFloat(file.size / 1024 / 1024).toFixed(2) + 'MB';
+                    let saveStatus = '上传中';
+
+                    let data = {
+                        name: name,
+                        artise: artise,
+                        size: size,
+                        saveStatus: saveStatus
+                    }
+
+                    eventHub.emit('uploadstart', data);
                 });
             },
             'BeforeUpload': function(up, file) {
