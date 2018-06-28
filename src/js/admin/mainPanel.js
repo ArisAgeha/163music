@@ -56,7 +56,6 @@ let dataHub = require('./dataHub.js');
 
             function buildDOM() {
                 let collectionList = dataHub.get('collectionList');
-                console.warn(collectionList)
 
                 for (let key in collectionList) {
                     let tbody = $(`<tbody class=_${key}></tbody>`);

@@ -142,4 +142,5 @@ let dataHub = require('./dataHub.js');
         }
     }
     controller.init(view, model);
+    console.error('ListBanelEnd!');
 }
