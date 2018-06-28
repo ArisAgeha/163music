@@ -14,17 +14,15 @@ let uploader = Qiniu.uploader({
             'FilesAdded': function(up, files) {
                 plupload.each(files, function(file) {
                     // 文件添加进队列后,处理相关的事情
-                    console.log(file);
                     let musicInfo = file.name.split('-');
                     let name = musicInfo[1]? musicInfo[1].trim().slice(0, musicInfo[1].lastIndexOf('.') - 1) : undefined;
-                    let artise = musicInfo[0]? musicInfo[0].trim() : undefined;
+                    let artist = musicInfo[0]? musicInfo[0].trim() : undefined;
                     let size = parseFloat(file.size / 1024 / 1024).toFixed(2) + 'MB';
                     let saveStatus = '上传中';
                     let id = file.id
-
                     let data = {
                         name: name,
-                        artise: artise,
+                        artist: artist,
                         size: size,
                         saveStatus: saveStatus,
                         id: id
@@ -44,7 +42,12 @@ let uploader = Qiniu.uploader({
                 let domain = up.getOption('domain');
                 let res = JSON.parse(info.response);
                 let sourceLink = 'http://' + domain + '/' + encodeURIComponent(res.key);
-                console.log(sourceLink);
+
+                let data = {
+                    link: sourceLink,
+                    id: file.id
+                }
+                eventHub.emit('uploadover', data);
             },
             'Error': function(up, err, errTip) {
                 //上传出错时,处理相关的事情

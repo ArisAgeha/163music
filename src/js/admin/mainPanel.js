@@ -108,7 +108,11 @@ let dataHub = require('./dataHub.js');
             }
 
             function completeSongView(data) {
-                
+                let target = $(this.view.el).find('.' + data.id)
+                target.removeClass('uploading').addClass('unsaved');
+                target.find('.link-td > span').text(data.link);
+                target.find('.status-td').text('待储存');
+                target.find('.album-td > span').text('未知专辑');
             }
 
 
