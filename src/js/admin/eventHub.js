@@ -4,9 +4,11 @@ module.exports = {
     },
 
     emit(eventType, data) {
-        this.events[eventType].map((fn) => {
-            fn.call(undefined, data);
-        })
+        if (this.events[eventType]) {
+            this.events[eventType].map((fn) => {
+                fn.call(undefined, data);
+            })
+        }
     },
 
     on(eventType, cb) {

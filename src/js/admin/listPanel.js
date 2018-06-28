@@ -7,8 +7,8 @@ let eventHub = require('./eventHub.js');
         template: '',
 
         render(collectionName) {
-            $(collectionName).addClass('active').siblings().removeClass('active');
-            eventHub.emit('switchCollection', collectionName);
+            collectionName.addClass('active').siblings().removeClass('active');
+            eventHub.emit('switchCollection', collectionName.text());
         },
 
         addList(collectionName) {
