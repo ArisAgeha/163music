@@ -1,21 +1,26 @@
 let $ = require('jquery');
 let AV = require('./admin-leancloud.js');
+let eventHub = require('./eventHub.js');
 {
     let view = {
         el: '#listPanel',
         template: '',
 
         render(collectionName) {
+            $(collectionName).addClass('active').siblings().removeClass('active');
+            eventHub.emit('switchCollection', collectionName);
+        },
+
+        addList(collectionName) {
             let $el = $(this.el);
             let li = $('<li></li>').html(collectionName);
-            $el.find('.musicList').prepend(li).children().eq(0).addClass('active').siblings().removeClass('active');
+            let musicList = $el.find('.musicList');
+            musicList.prepend(li);
+            this.render(musicList.children().eq(0));
         },
 
         throwErrTips() {
-            console.log('-----')
             let tips = $(this.el).find('.dupErrTips');
-            console.log(tips)
-
             tips.addClass('show');
             setTimeout(()=> {
                 tips.removeClass('show');
@@ -51,7 +56,6 @@ let AV = require('./admin-leancloud.js');
             let obj = {};
             obj[key] = val;
             Object.assign(this.collectionList, obj);
-            console.log(this.collectionList)
         },
 
         createLeanCloudBucket(collectionName){
@@ -79,7 +83,7 @@ let AV = require('./admin-leancloud.js');
             queryList.find().then((list) => {
                 for (let i = 0; i < list.length; i++) {
                     let collectionName = list[i].attributes.collectionName;
-                    this.view.render(collectionName);
+                    this.view.addList(collectionName);
                     this.model.render(list[i].attributes)
                 }
             }, (err) => {
@@ -91,7 +95,7 @@ let AV = require('./admin-leancloud.js');
             // 点击切换歌单列表
             let $el = $(this.view.el);
             $el.find('.musicList').on('click', 'li', (e) => {
-                $(e.currentTarget).addClass('active').siblings().removeClass('active');
+                this.view.render($(e.currentTarget));
             })
 
             let clcreator = $el.find('.mask > .clCreator-mask');
@@ -123,7 +127,7 @@ let AV = require('./admin-leancloud.js');
         async addCollectionList(collectionName) {
             let success = await this.model.checkNameDuplicate(collectionName);
             if (success) {
-                this.view.render(collectionName);   
+                this.view.addList(collectionName);   
                 let obj = {
                     'collectionName': collectionName,
                     songList: []
@@ -133,6 +137,5 @@ let AV = require('./admin-leancloud.js');
             else this.view.throwErrTips();
         }
     }
-
     controller.init(view, model);
 }
