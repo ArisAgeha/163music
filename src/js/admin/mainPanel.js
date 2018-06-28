@@ -86,6 +86,7 @@ let dataHub = require('./dataHub.js');
         bindEvent() {
             this.watchAddList();
             this.watchSwitchList();
+            this.watchEditor();
             eventHub.on('uploadstart', (data) => {
                 initSongView.call(this, data);
             });
@@ -114,12 +115,9 @@ let dataHub = require('./dataHub.js');
                 target.find('.status-td').text('待储存');
                 target.find('.album-td > span').text('未知专辑');
             }
-
-
         },
 
         watchAddList() {
-            // {songList: [id1, id2, id3...]}
             eventHub.on('addCollection', (data) => {
                 let tbody = $(`<tbody class=_${data}></tbody>`);
                 let table = $(this.view.el).find('.table');
@@ -132,6 +130,10 @@ let dataHub = require('./dataHub.js');
                 let $el = $(this.view.el);
                 $el.find('._' + `${data}`).addClass('show').siblings().removeClass('show');
             })
+        },
+
+        watchEditor() {
+            let table = $(this.view.el).find(table);
         }
 
     };

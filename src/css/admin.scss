@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'iconfont';  /* project id 722753 */
+  src: url('//at.alicdn.com/t/font_722753_90bssa6l0s6.eot');
+  src: url('//at.alicdn.com/t/font_722753_90bssa6l0s6.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_722753_90bssa6l0s6.woff') format('woff'),
+  url('//at.alicdn.com/t/font_722753_90bssa6l0s6.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_722753_90bssa6l0s6.svg#iconfont') format('svg');
+}
 .icon {
 	width: 1.2em; height: 1.2em;
 	vertical-align: -0.15em;
@@ -420,7 +428,29 @@ main {
                                 vertical-align: middle;
                             }
                         }
+
+                        .name-td::after,
+                        .artist-td::after,
+                        .album-td::after{
+                            display:none;
+                            content:'\e636';
+                            font-family:"iconfont" !important;
+                            font-size:16px;font-style:normal;
+                            -webkit-font-smoothing: antialiased;
+                            -webkit-text-stroke-width: 0.2px;
+                            -moz-osx-font-smoothing: grayscale;
+                            cursor: pointer;
+                            color: #1989fa;
+                        }
+
+
+                        .name-td.show::after,
+                        .artist-td.show::after,
+                        .album-td.show::after{
+                            display: inline;
+                        }
                     }
+
                     tr.unsaved {
                         background-color: rgba(255,240,240,0.6);
                     }
