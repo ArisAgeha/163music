@@ -41,4 +41,3 @@ let uploader = Qiniu.uploader({
             },
         }
     });
-

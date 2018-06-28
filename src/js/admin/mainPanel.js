@@ -19,7 +19,8 @@ let dataHub = require('./dataHub.js');
     
     let model = {
         init() {
-            this.songList = {}
+            console.error('mainPanel init start!');
+            this.songList = {};
         },
 
         async requireSongList() {
@@ -50,8 +51,37 @@ let dataHub = require('./dataHub.js');
         },
 
         initView() {
-            let currentList = dataHub.get('currentList');
-            $(this.view.el).find('._' + `${currentList}`).addClass('show').siblings().removeClass('show');
+            buildDOM.call(this);
+            showCurrentList.call(this);
+
+            function buildDOM() {
+                let collectionList = dataHub.get('collectionList');
+                console.warn(collectionList)
+
+                for (let key in collectionList) {
+                    let tbody = $(`<tbody class=_${key}></tbody>`);
+                    let table = $(this.view.el).find('.table');
+
+                    for(let songID of collectionList[key]) {
+                        let songInfo = this.model.songList[songID];
+                        let trString = this.view.template
+                            .replace('__name__', songInfo.name)
+                            .replace('__artist__', songInfo.artist)
+                            .replace('__album__', songInfo.album)
+                            .replace('__link__', songInfo.link)
+                            .replace('__size__', songInfo.size)
+                            .replace('__saveStatus__', '已保存');
+                        let tr = $(trString);
+                        tbody.append(tr);
+                    }
+                    table.append(tbody);
+                }
+            }
+
+            function showCurrentList() {
+                let currentList = dataHub.get('currentList');
+                $(this.view.el).find('._' + `${currentList}`).addClass('show').siblings().removeClass('show');
+            }
         },
         
         bindEvent() {
@@ -62,31 +92,9 @@ let dataHub = require('./dataHub.js');
         watchAddList() {
             // {songList: [id1, id2, id3...]}
             eventHub.on('addCollection', (data) => {
-                for (let key in data) {
-                    let tbody = $(`<tbody class=_${key}></tbody>`);
-
-                    for(let songID of data[key]) {
-                        console.log(songID)
-                        let songInfo = this.model.songList[songID];
-                        console.log('1---------------')
-                        console.log(JSON.stringify(this.model.songList))
-                        console.log(songID)
-                        console.log(this.model.songList[songID])
-                        let trString = this.view.template
-                        .replace('__name__', songInfo.name)
-                        .replace('__artist__', songInfo.artist)
-                        .replace('__album__', songInfo.album)
-                        .replace('__link__', songInfo.link)
-                        .replace('__size', songInfo.size)
-                        .replace('__saveStatus__', '已保存');
-                        console.log(trString);
-                        console.log('2----------------')
-                        let tr = $(trString);
-                        tbody.append(tr);
-                    }
-                    console.log('------')
-                    console.log(tbody);
-                }
+                let tbody = $(`<tbody class=_${data}></tbody>`);
+                let table = $(this.view.el).find('.table');
+                table.append(tbody);
             })
         },
 

@@ -74,17 +74,17 @@ let dataHub = require('./dataHub.js');
     }
 
     let controller = {
-        init(view, model) {
-            this.view = view,
-            this.model = model,
+        async init(view, model) {
+            this.view = view;
+            this.model = model;
             dataHub.set('collectionList', this.model.collectionList);
-            this.getList(),
+            await this.getList();
             this.bindEvent()
         },
 
-        getList() {
+        async getList() {
             let queryList = new AV.Query('CollectionList');
-            queryList.find().then((list) => {
+            await queryList.find().then((list) => {
                 for (let i = 0; i < list.length; i++) {
                     let collectionName = list[i].attributes.collectionName;
                     this.view.addList(collectionName);
@@ -136,6 +136,7 @@ let dataHub = require('./dataHub.js');
                     songList: []
                 };
                 this.model.render(obj);
+                eventHub.emit('addCollection', collectionName);
             }
             else this.view.throwErrTips();
         }
