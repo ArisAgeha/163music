@@ -424,6 +424,9 @@ main {
                     tr.unsaved {
                         background-color: rgba(255,240,240,0.6);
                     }
+                    tr.uploading {
+                        background-color: rgba(25, 137, 250, 0.04);
+                    }
                 }
 
                 tbody.show {

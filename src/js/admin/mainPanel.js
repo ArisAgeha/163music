@@ -87,10 +87,13 @@ let dataHub = require('./dataHub.js');
             this.watchAddList();
             this.watchSwitchList();
             eventHub.on('uploadstart', (data) => {
-                addSongView.call(this, data);
-            })
+                initSongView.call(this, data);
+            });
+            eventHub.on('uploadover', (data) => {
+                completeSongView.call(this, data);
+            });
 
-            function addSongView(data) {
+            function initSongView(data) {
                 let currentListName = dataHub.get('currentList');
                 let currentList = $(this.view.el).find('._' + currentListName);
                 let trString = this.view.template
@@ -99,8 +102,16 @@ let dataHub = require('./dataHub.js');
                     .replace('__size__', data.size)
                     .replace('__saveStatus__', data.saveStatus);
                 let tr = $(trString);
+                tr.addClass('uploading');
+                tr.addClass(data.id);
                 currentList.prepend(tr);
             }
+
+            function completeSongView(data) {
+                
+            }
+
+
         },
 
         watchAddList() {

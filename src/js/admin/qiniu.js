@@ -20,12 +20,14 @@ let uploader = Qiniu.uploader({
                     let artise = musicInfo[0]? musicInfo[0].trim() : undefined;
                     let size = parseFloat(file.size / 1024 / 1024).toFixed(2) + 'MB';
                     let saveStatus = '上传中';
+                    let id = file.id
 
                     let data = {
                         name: name,
                         artise: artise,
                         size: size,
-                        saveStatus: saveStatus
+                        saveStatus: saveStatus,
+                        id: id
                     }
 
                     eventHub.emit('uploadstart', data);
