@@ -398,6 +398,7 @@ main {
                 }
 
                 tbody {
+                    display: none;
                     tr {
                         td {
                             padding: 10px 0;
@@ -423,6 +424,10 @@ main {
                     tr.unsaved {
                         background-color: rgba(255,240,240,0.6);
                     }
+                }
+
+                tbody.show {
+                    display: table-row-group;
                 }
             }
         }
