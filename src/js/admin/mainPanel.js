@@ -147,14 +147,21 @@ let dataHub = require('./dataHub.js');
                 mask.addClass('show').find('input').val(tempVal);
                 mask.find('input').focus();
 
-                mask.one('click', '.cl-confirm', (e) => {
+                mask.on('click.temp', '.cl-confirm', (e) => {
                     let tempVal = mask.find('input').val().trim();
                     mask.removeClass('show');
                     if (tempVal !== '') {
                         target.find('span').text(tempVal);
                         target.parent().addClass('unsaved').find('.status-td').text('修改未储存');
+                        mask.unbind('click.temp');
                     }
                 })
+
+                mask.on('click.temp', '.cl-cancel', (e) => {
+                    mask.removeClass('show');
+                    mask.unbind('click.temp');
+                })
+
             });
             
         }
