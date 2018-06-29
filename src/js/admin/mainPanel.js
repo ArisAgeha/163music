@@ -35,14 +35,6 @@ let dataHub = require('./dataHub.js');
                 console.log(err)    
             })
 
-            function sleep(numberMillis) {
-                var now = new Date();
-                var exitTime = now.getTime() + numberMillis;
-                while (true) {
-                    now = new Date();
-                    if (now.getTime() > exitTime) return;
-                }
-            }
         },
     };
 
@@ -51,7 +43,7 @@ let dataHub = require('./dataHub.js');
             this.view = view;
             this.model = model;
             await this.getSongList();
-            this.initView();
+            await this.initView();
             this.bindEvent();
         },
 
@@ -59,12 +51,28 @@ let dataHub = require('./dataHub.js');
             await this.model.requireSongList();
         },
 
-        initView() {
-            buildDOM.call(this);
+        async initView() {
+            await buildDOM.call(this);
             showCurrentList.call(this);
 
-            function buildDOM() {
+            async function buildDOM() {
+                let loadList = dataHub.get('loadList');
+                if (!loadList) {
+                    await waitForListLoadEnd();
+                }
+
+                async function waitForListLoadEnd() {
+                    let loadList = dataHub.get('loadList');
+                    console.error(loadList);
+
+                    console.log('1');
+                    if (!loadList) await setTimeout(function(){
+                        waitForListLoadEnd();
+                    }, 200);
+                    else return;
+                }
                 let collectionList = dataHub.get('collectionList');
+                console.error(collectionList);
 
                 for (let key in collectionList) {
                     let tbody = $(`<tbody class=_${key}></tbody>`);
@@ -96,6 +104,7 @@ let dataHub = require('./dataHub.js');
             this.watchAddList();
             this.watchSwitchList();
             this.watchEditor();
+            this.watchSelectButton();
             eventHub.on('uploadstart', (data) => {
                 initSongView.call(this, data);
             });
@@ -173,6 +182,13 @@ let dataHub = require('./dataHub.js');
 
             });
             
+        },
+
+        watchSelectButton() {
+            $(this.view.el).find('.selectAll').on('click', () => {
+                let currentList = dataHub.get('currentList');
+                $('._' + currentList).find('.td-checkbox > input').attr('checked', "true");
+            }) 
         }
 
     };

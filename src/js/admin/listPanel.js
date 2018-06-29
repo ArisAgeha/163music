@@ -93,6 +93,7 @@ let dataHub = require('./dataHub.js');
             }, (err) => {
                 console.log(err)    
             })
+            dataHub.set('loadList', true);
         },
 
         bindEvent() {
