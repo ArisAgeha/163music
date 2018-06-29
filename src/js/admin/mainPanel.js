@@ -16,16 +16,16 @@ let dataHub = require('./dataHub.js');
         <td class="status-td">__saveStatus__</th>
         </tr>`
     };
-    
+
     let model = {
         init() {
             console.error('mainPanel init start!');
             this.songList = {};
         },
 
-        async requireSongList() {
+        requireSongList() {
             let queryList = new AV.Query('SongList');
-            await queryList.find().then((list) => {
+            queryList.find().then((list) => {
                 for (let i = 0; i < list.length; i++) {
                     let obj = {...list[i].attributes};
                     let id = list[i].id;
@@ -42,13 +42,13 @@ let dataHub = require('./dataHub.js');
         async init(view, model) {
             this.view = view;
             this.model = model;
-            await this.getSongList();
+            this.getSongList();
             await this.initView();
             this.bindEvent();
         },
 
-        async getSongList() {
-            await this.model.requireSongList();
+        getSongList() {
+            this.model.requireSongList();
         },
 
         async initView() {
@@ -58,14 +58,19 @@ let dataHub = require('./dataHub.js');
             async function buildDOM() {
                 let loadList = dataHub.get('loadList');
                 if (!loadList) {
-                    waitForListLoadEnd();
+                    await waitForListLoadEnd();
                 }
-                let sleep =  new Promise(function (resolve, reject) {
-                    setTimeout(function () {
-                        resolve();
-                    }, 200);
-                });
+                console.warn('---')
+
                 async function waitForListLoadEnd() {
+                    let sleep = function (time) {
+                        return new Promise(function (resolve, reject) {
+                            setTimeout(function () {
+                                resolve();
+                            }, time);
+                        })
+                    };
+
                     let loadList = dataHub.get('loadList');
                     console.error(loadList);
                     let circle = 0;
@@ -74,6 +79,8 @@ let dataHub = require('./dataHub.js');
                         console.warn(++circle);
                     }
                 }
+
+
                 let collectionList = dataHub.get('collectionList');
                 console.error(collectionList);
 
@@ -102,7 +109,7 @@ let dataHub = require('./dataHub.js');
                 $(this.view.el).find('._' + `${currentList}`).addClass('show').siblings().removeClass('show');
             }
         },
-        
+
         bindEvent() {
             this.watchAddList();
             this.watchSwitchList();
@@ -185,7 +192,7 @@ let dataHub = require('./dataHub.js');
                 })
 
             });
-            
+
         },
 
         watchSelectButton() {
