@@ -60,13 +60,11 @@ let dataHub = require('./dataHub.js');
                 if (!loadList) {
                     waitForListLoadEnd();
                 }
-                let sleep = function (time) {
-                    return new Promise(function (resolve, reject) {
-                        setTimeout(function () {
-                            resolve();
-                        }, time);
-                    })
-                };
+                let sleep =  new Promise(function (resolve, reject) {
+                    setTimeout(function () {
+                        resolve();
+                    }, 200);
+                });
                 async function waitForListLoadEnd() {
                     let loadList = dataHub.get('loadList');
                     console.error(loadList);
@@ -110,6 +108,7 @@ let dataHub = require('./dataHub.js');
             this.watchSwitchList();
             this.watchEditor();
             this.watchSelectButton();
+            this.watchSaveButton();
             eventHub.on('uploadstart', (data) => {
                 initSongView.call(this, data);
             });
@@ -195,8 +194,17 @@ let dataHub = require('./dataHub.js');
                 let checked = $('._' + currentList).find('.td-checkbox > input').attr('checked');
                 $('._' + currentList).find('.td-checkbox > input').attr('checked', !checked);
             }) 
-        }
+        },
 
+        watchSaveButton() {
+            $(this.view.el).find('.saveButton').on('click', () => {
+                let currentListName = dataHub.get('currentList');
+                let currentList = $('._' + currentListName);
+                let checked = currentList.find('*[checked=checked]')
+                console.log(currentList);
+                console.log(checked)
+            })
+        }
     };
     model.init();
     controller.init(view, model);
