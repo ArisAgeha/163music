@@ -64,10 +64,8 @@ let dataHub = require('./dataHub.js');
                 async function waitForListLoadEnd() {
                     let loadList = dataHub.get('loadList');
                     console.error(loadList);
-
-                    console.log('1');
-                    if (!loadList) await setTimeout(function(){
-                        waitForListLoadEnd();
+                    if (!loadList) await setTimeout(async function(){
+                        await waitForListLoadEnd();
                     }, 200);
                     else return;
                 }
