@@ -58,16 +58,23 @@ let dataHub = require('./dataHub.js');
             async function buildDOM() {
                 let loadList = dataHub.get('loadList');
                 if (!loadList) {
-                    await waitForListLoadEnd();
+                    waitForListLoadEnd();
                 }
-
+                let sleep = function (time) {
+                    return new Promise(function (resolve, reject) {
+                        setTimeout(function () {
+                            resolve();
+                        }, time);
+                    })
+                };
                 async function waitForListLoadEnd() {
                     let loadList = dataHub.get('loadList');
                     console.error(loadList);
-                    if (!loadList) await setTimeout(async function(){
-                        await waitForListLoadEnd();
-                    }, 200);
-                    else return;
+                    let circle = 0;
+                    while(!dataHub.get('loadList')) {
+                        await sleep(200);
+                        console.warn(++circle);
+                    }
                 }
                 let collectionList = dataHub.get('collectionList');
                 console.error(collectionList);
@@ -183,9 +190,10 @@ let dataHub = require('./dataHub.js');
         },
 
         watchSelectButton() {
-            $(this.view.el).find('.selectAll').on('click', () => {
+            $(this.view.el).find('.selectAll').on('click', (e) => {
                 let currentList = dataHub.get('currentList');
-                $('._' + currentList).find('.td-checkbox > input').attr('checked', "true");
+                let checked = $('._' + currentList).find('.td-checkbox > input').attr('checked');
+                $('._' + currentList).find('.td-checkbox > input').attr('checked', !checked);
             }) 
         }
 

@@ -285,6 +285,7 @@ main {
                     border-radius: 4px;
                     transition-duration: 0.35s;
                     cursor: pointer;
+                    user-select: none;
                 }
 
                 .statistics {
