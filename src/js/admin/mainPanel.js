@@ -110,7 +110,7 @@ let dataHub = require('./dataHub.js');
 
             function completeSongView(data) {
                 let target = $(this.view.el).find('.' + data.id)
-                target.removeClass('uploading').addClass('unsaved');
+                target.removeClass('uploading').addClass('notlogin');
                 target.find('.link-td > span').text(data.link);
                 target.find('.status-td').text('待储存');
                 target.find('.album-td > span').text('未知专辑');
@@ -133,7 +133,30 @@ let dataHub = require('./dataHub.js');
         },
 
         watchEditor() {
-            let table = $(this.view.el).find(table);
+            let table = $(this.view.el).find('table');
+            let mask = $(this.view.el).find('.clCreator-mask');
+            table.on('mouseenter', 'tr',(e) => {
+                $(e.currentTarget).find('.name-td, .artist-td, .album-td').addClass('show');
+            });
+            table.on('mouseleave', 'tr',(e) => {
+                $(e.currentTarget).find('.name-td, .artist-td, .album-td').removeClass('show');
+            });
+            table.on('click', '.name-td, .artist-td, .album-td', (e) => {
+                let tempVal = $(e.currentTarget).children().text();
+                let target = $(e.currentTarget);
+                mask.addClass('show').find('input').val(tempVal);
+                mask.find('input').focus();
+
+                mask.one('click', '.cl-confirm', (e) => {
+                    let tempVal = mask.find('input').val().trim();
+                    mask.removeClass('show');
+                    if (tempVal !== '') {
+                        target.find('span').text(tempVal);
+                        target.parent().addClass('unsaved').find('.status-td').text('修改未储存');
+                    }
+                })
+            });
+            
         }
 
     };
