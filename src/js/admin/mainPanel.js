@@ -87,7 +87,7 @@ let dataHub = require('./dataHub.js');
                     if (collectionList[key]){
                         for(let songID of collectionList[key]) {
                             if (typeof songID === 'object') {
-                                tbody.prop('id', songID.collectionId);
+                                tbody.prop('id', songID.collectionID);
                                 continue;
                             }
 
@@ -238,7 +238,7 @@ let dataHub = require('./dataHub.js');
         },
 
         watchSaveButton() {
-            $(this.view.el).find('.saveButton').on('click', () => {
+            $(this.view.el).find('.saveButton').on('click', async () => {
                 let currentListName = dataHub.get('currentList');
                 let currentList = $('._' + currentListName);
                 let checked = currentList.find('.td-checkbox > input').filter(':checked');
@@ -252,18 +252,18 @@ let dataHub = require('./dataHub.js');
                     let id = $(tr).attr('id');
                     let songData = AV.Object.createWithoutData('SongList', id);
 
-                    songData.save({
+                    await songData.save({
                         'name': name,
                         'artist': artist,
                         'album': album,
                         'link': link,
                         'size': size,
-                    }).then((info) => {
+                    }).then(async (info) => {
                         $(tr).removeClass('unsaved').removeClass('notlogin').find('.status-td').text('已保存');
                         if (!id) {
                             $(tr).prop['id', info.id];
                             console.error(id);
-                            eventHub.emit('setSongID', {'id': info.id, 'targetListName': currentListName});
+                            await eventHub.emit('setSongID', {'id': info.id, 'targetListName': currentListName});
                         }
                     })
                 }

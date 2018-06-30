@@ -147,7 +147,7 @@ let dataHub = require('./dataHub.js');
         },
 
         setSongID() {
-            eventHub.on('setSongID', (data) => {
+            eventHub.on('setSongID', async (data) => {
                 let {id, targetListName} = data;
                 let targetListData = this.model.collectionList[targetListName]; 
                 let collectionID = targetListData[0].collectionID;
@@ -158,7 +158,7 @@ let dataHub = require('./dataHub.js');
                 })
                 console.error(put)
                 let songData = AV.Object.createWithoutData('CollectionList', collectionID);
-                songData.save({'songList': put});
+                await songData.save({'songList': put});
             })
         },
 
