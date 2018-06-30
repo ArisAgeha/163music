@@ -181,6 +181,7 @@ let dataHub = require('./dataHub.js');
             });
 
             table.on('click', '.name-td > i, .artist-td > i, .album-td > i', (e) => {
+                e.stopPropagation();
                 let target = $(e.currentTarget);
                 let currentVal = target.siblings('span').text();
                 mask.addClass('show').find('input').val(currentVal);
@@ -227,6 +228,10 @@ let dataHub = require('./dataHub.js');
                 if (checked) checkbox.prop('checked', '');
                 else checkbox.prop('checked', 'checked')
             })
+            $(this.view.el).find('table').on('click', 'input', (e) => {
+                e.stopPropagation();
+            })
+
         },
 
         watchSaveButton() {
@@ -234,8 +239,10 @@ let dataHub = require('./dataHub.js');
                 let currentListName = dataHub.get('currentList');
                 let currentList = $('._' + currentListName);
                 let checked = currentList.find('.td-checkbox > input').filter(':checked');
-                console.error(checked)
-                
+                let saveList = checked.parent().parent().filter('.unsaved, .notlogin');
+                console.log(checked)
+                console.log(saveList);
+
             })
         }
     };
