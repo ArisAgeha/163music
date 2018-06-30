@@ -122,6 +122,7 @@ let dataHub = require('./dataHub.js');
             this.watchSelectButton();
             this.watchCheckbox();
             this.watchSaveButton();
+            this.watchDeleteButton();
         },
 
         watchUpload() {
@@ -262,11 +263,25 @@ let dataHub = require('./dataHub.js');
                         $(tr).removeClass('unsaved').removeClass('notlogin').find('.status-td').text('已保存');
                         if (!id) {
                             $(tr).prop['id', info.id];
-                            console.error(id);
                             await eventHub.emit('setSongID', {'id': info.id, 'targetListName': currentListName});
                         }
                     })
                 }
+            })
+        },
+
+        watchDeleteButton() {
+            $(this.view.el).find('.deleteButton').on('click', async () => {
+                let currentListName = dataHub.get('currentList');
+                let currentList = $('._' + currentListName);
+                let checked = currentList.find('.td-checkbox > input').filter(':checked');
+                let toDeleteList = checked.parent().parent();
+                let tdlInServer = toDeleteList.not('.notlogin');
+                for (let tr of tdlInServer) {
+                    let songID = $(tr).attr('id');
+                    await eventHub.emit('deleteSong', {'targetListName': currentListName, 'songID': songID});
+                }
+                toDeleteList.remove();
             })
         }
     };

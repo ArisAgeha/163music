@@ -111,6 +111,7 @@ let dataHub = require('./dataHub.js');
             this.switchCollectionList();
             this.createCollectionList();
             this.setSongID();
+            this.removeSongID();
             console.log(this.setSongID)
         },
 
@@ -156,7 +157,6 @@ let dataHub = require('./dataHub.js');
                 let put = targetListData.filter((item) => {
                     return (typeof(item) === 'string')
                 })
-                console.error(put)
                 let songData = AV.Object.createWithoutData('CollectionList', collectionID);
                 await songData.save({'songList': put});
             })
@@ -177,6 +177,22 @@ let dataHub = require('./dataHub.js');
                 });
             }
             else this.view.throwErrTips();
+        },
+
+        removeSongID() {
+            eventHub.on('deleteSong', async (data) => {
+                let {songID, targetListName} = data;
+                let targetListData = this.model.collectionList[targetListName]; 
+                let collectionID = targetListData[0].collectionID;
+                console.log(songID)
+                targetListData.splice(targetListData.indexOf(songID), 1);
+                console.log(targetListData)
+                let put = targetListData.filter((item) => {
+                    return (typeof(item) === 'string')
+                })
+                let songData = AV.Object.createWithoutData('CollectionList', collectionID);
+                await songData.save({'songList': put});
+            })
         }
     }
     controller.init(view, model);
