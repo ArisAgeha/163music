@@ -30,9 +30,6 @@ let dataHub = require('./dataHub.js');
                     let obj = {...list[i].attributes};
                     let id = list[i].id;
                     this.songList[id] = obj;
-                    console.error('----------')
-                    console.error(id)
-                    console.error(obj)
                 }
             }, (err) => {
                 console.log(err)    
@@ -63,7 +60,6 @@ let dataHub = require('./dataHub.js');
                 if (!loadList) {
                     await waitForListLoadEnd();
                 }
-                console.warn('---')
 
                 async function waitForListLoadEnd() {
                     let sleep = function (time) {
@@ -75,7 +71,6 @@ let dataHub = require('./dataHub.js');
                     };
 
                     let loadList = dataHub.get('loadList');
-                    console.error(loadList);
                     let circle = 0;
                     while(!dataHub.get('loadList')) {
                         await sleep(200);
@@ -91,7 +86,6 @@ let dataHub = require('./dataHub.js');
 
                     if (collectionList[key]){
                         for(let songID of collectionList[key]) {
-                            console.error(typeof songID)
                             if (typeof songID === 'object') {
                                 tbody.prop('id', songID.collectionId);
                                 continue;
@@ -249,8 +243,6 @@ let dataHub = require('./dataHub.js');
                 let currentList = $('._' + currentListName);
                 let checked = currentList.find('.td-checkbox > input').filter(':checked');
                 let saveList = checked.parent().parent().filter('.unsaved, .notlogin');
-                console.log(checked)
-                console.log(saveList);
                 for (let tr of saveList) {
                     let name = $(tr).find('.name-td > span').text();
                     let artist = $(tr).find('.artist-td > span').text();
@@ -270,13 +262,11 @@ let dataHub = require('./dataHub.js');
                         $(tr).removeClass('unsaved').removeClass('notlogin').find('.status-td').text('已保存');
                         if (!id) {
                             $(tr).prop['id', info.id];
-                            eventHub.emit('setSongID', {'id': info.id, 'targetList': currentListName});
+                            console.error(id);
+                            eventHub.emit('setSongID', {'id': info.id, 'targetListName': currentListName});
                         }
-                        
                     })
                 }
-
-
             })
         }
     };

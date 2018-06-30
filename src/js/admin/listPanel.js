@@ -56,7 +56,7 @@ let dataHub = require('./dataHub.js');
         render(collection, id) {
             let key = collection.collectionName;
             let val = collection.songList || [];
-            val.push({'collectionId': id});
+            val.unshift({'collectionID': id});
             let obj = {};
             obj[key] = val;
             Object.assign(this.collectionList, obj);
@@ -111,13 +111,13 @@ let dataHub = require('./dataHub.js');
             this.switchCollectionList();
             this.createCollectionList();
             this.setSongID();
+            console.log(this.setSongID)
         },
 
         switchCollectionList() {
             let $el = $(this.view.el);
             $el.find('.musicList').on('click', 'li', (e) => {
                 this.view.render($(e.currentTarget));
-                console.log(this.model.collectionList);
             })
         },
 
@@ -147,12 +147,18 @@ let dataHub = require('./dataHub.js');
         },
 
         setSongID() {
-            eventHub.on('setSongId', (data) => {
-                let {id, targetList} = data;
-                this.model.collectionList[targetList].push(id);
-                console.log(this.model.collectionList[targetList])
-
-                let songData = AV.Object.createWithoutData('CollectionList', id);
+            eventHub.on('setSongID', (data) => {
+                let {id, targetListName} = data;
+                let targetListData = this.model.collectionList[targetListName]; 
+                let collectionID = targetListData[0].collectionID;
+                
+                targetListData.push(id);
+                let put = targetListData.filter((item) => {
+                    return (typeof(item) === 'string')
+                })
+                console.error(put)
+                let songData = AV.Object.createWithoutData('CollectionList', collectionID);
+                songData.save({'songList': put});
             })
         },
 
