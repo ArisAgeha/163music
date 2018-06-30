@@ -176,18 +176,17 @@ let dataHub = require('./dataHub.js');
             });
 
             table.on('click', '.name-td > i, .artist-td > i, .album-td > i', (e) => {
-                let tempVal = $(e.currentTarget).children().text();
                 let target = $(e.currentTarget);
-                mask.addClass('show').find('input').val(tempVal);
+                let currentVal = target.siblings('span').text();
+                mask.addClass('show').find('input').val(currentVal);
                 mask.find('input').focus();
 
-                mask.on('click.temp', '.cl-confirm', (e) => {
-                    let tempVal = mask.find('input').val().trim();
-                    let currentVal = target.find('span').text();
+                mask.on('click.temp', '.cl-confirm', (ee) => {
+                    let newVal = mask.find('input').val().trim();
                     mask.removeClass('show');
-                    if (tempVal !== '' && tempVal !== currentVal) {
-                        target.find('span').text(tempVal);
-                        target.parent().addClass('unsaved').find('.status-td').text('修改未储存');
+                    if (newVal !== '' && newVal !== currentVal) {
+                        target.siblings('span').text(newVal);
+                        target.parent().parent().addClass('unsaved').find('.status-td').text('修改未储存');
                     }
                     mask.unbind('click.temp');
                 })

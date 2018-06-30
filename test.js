@@ -6,10 +6,10 @@ let sleep = function (time) {
     })
 };
 
-var start = function () {
+var start = async function () {
     // 在这里使用起来就像同步代码那样直观
     console.log('start');
-    sleep(3000);
+    await sleep(3000);
     console.log('end');
 };
 
