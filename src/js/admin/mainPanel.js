@@ -123,6 +123,7 @@ let dataHub = require('./dataHub.js');
             this.watchCheckbox();
             this.watchSaveButton();
             this.watchDeleteButton();
+            this.watchSearchButton();
         },
 
         watchUpload() {
@@ -282,6 +283,23 @@ let dataHub = require('./dataHub.js');
                     await eventHub.emit('deleteSong', {'targetListName': currentListName, 'songID': songID});
                 }
                 toDeleteList.remove();
+            })
+        },
+
+        watchSearchButton() {
+            $(this.view.el).find('.searchMusic > input').on('input', (e) => {
+                let value = $(e.currentTarget).val();
+                let collectionList = $(this.view.el).find('tbody.show');
+                collectionList.find('tr').removeClass('hidden');
+                let spans = collectionList.find('tr > .name-td > span');
+                for (let span of spans) {
+                    let $span = $(span)
+                    if ($span.text().indexOf(value) < 0) {
+                        if ($span.parent().siblings('.artist-td').find('span').text().indexOf(value) < 0) {
+                            $span.parent().parent().addClass('hidden');   
+                        }
+                    }
+                }
             })
         }
     };

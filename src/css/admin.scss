@@ -533,6 +533,9 @@ main {
                     tr.uploading {
                         background-color: rgba(25, 137, 250, 0.04);
                     }
+                    tr.hidden {
+                        display: none;
+                    }
                 }
 
                 tbody.show {
