@@ -112,6 +112,7 @@ let dataHub = require('./dataHub.js');
             this.createCollectionList();
             this.setSongID();
             this.removeSongID();
+            this.watchSearch();
             console.log(this.setSongID)
         },
 
@@ -192,6 +193,20 @@ let dataHub = require('./dataHub.js');
                 })
                 let songData = AV.Object.createWithoutData('CollectionList', collectionID);
                 await songData.save({'songList': put});
+            })
+        },
+
+        watchSearch() {
+            $(this.view.el).find('.searchList > input').on('input', (e) => {
+                let value = $(e.currentTarget).val();
+                let lists = $(this.view.el).find('.musicList').find('li');
+                lists.removeClass('hidden');
+                for (let list of lists) {
+                    let $list = $(list);
+                    if ($list.text().indexOf(value) < 0) {
+                        $list.addClass('hidden');
+                    }
+                }
             })
         }
     }
