@@ -207,11 +207,8 @@ let dataHub = require('./dataHub.js');
                 let currentList = $('._' + currentListName);
 
                 let checkbox = currentList.find('.td-checkbox > input');
-                let checked = currentList.find(':checked');
-                console.warn(checkbox);
-                console.warn(checked);
-                console.warn(checked === checkbox)
-                if (checkbox.is(checked)) {
+                let checked = checkbox.filter(':checked');
+                if (checkbox.length === checked.length) {
                     checked.prop('checked', '');
                 } else {
                     checkbox.prop('checked', 'checked');
@@ -223,9 +220,9 @@ let dataHub = require('./dataHub.js');
             $(this.view.el).find('.saveButton').on('click', () => {
                 let currentListName = dataHub.get('currentList');
                 let currentList = $('._' + currentListName);
-                let checked = currentList.find('*[type=checkbox]:checked');
-                console.error(currentList);
+                let checked = currentList.find('.td-checkbox > input').filter(':checked');
                 console.error(checked)
+                
             })
         }
     };
