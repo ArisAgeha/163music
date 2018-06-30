@@ -192,7 +192,8 @@ let dataHub = require('./dataHub.js');
                     mask.removeClass('show');
                     if (newVal !== '' && newVal !== currentVal) {
                         target.siblings('span').text(newVal);
-                        target.parent().parent().addClass('unsaved').find('.status-td').text('修改未储存');
+                        let tr = target.parent().parent();
+                        if (!tr.hasClass('notlogin')) target.parent().parent().addClass('unsaved').find('.status-td').text('修改未储存');
                     }
                     mask.unbind('click.temp');
                 })
@@ -201,9 +202,7 @@ let dataHub = require('./dataHub.js');
                     mask.removeClass('show');
                     mask.unbind('click.temp');
                 })
-
             });
-
         },
 
         watchSelectButton() {
