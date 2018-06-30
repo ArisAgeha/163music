@@ -274,8 +274,7 @@ main {
                 .saveButton,
                 .uploadButton,
                 .deleteButton,
-                .selectAll,
-                .statistics {
+                .selectAll {
                     font-size: 12px;
                     padding: 0 15px;
                     margin-left: 15px;
@@ -286,12 +285,6 @@ main {
                     transition-duration: 0.35s;
                     cursor: pointer;
                     user-select: none;
-                }
-
-                .statistics {
-                    font-size: 14px;
-                    cursor: initial;
-                    border: none;
                 }
 
                 .saveButton {
