@@ -8,9 +8,9 @@ let dataHub = require('./dataHub.js');
         el: '.mainPanel',
         template: `<tr>
         <td class="td-checkbox"><input type="checkbox"></td>
-        <td class="name-td"><span>__name__</span></td>
-        <td class="artist-td"><span>__artist__</span></td>
-        <td class="album-td"><span>__album__</span></td>
+        <td class="name-td"><span>__name__</span><i>&#xe636</i></td>
+        <td class="artist-td"><span>__artist__</span><i>&#xe636</i></td>
+        <td class="album-td"><span>__album__</span><i>&#xe636</i></td>
         <td class="link-td"><span>__link__</span></td>
         <td class="size-td"><span>__size__</span></td>
         <td class="status-td">__saveStatus__</th>
@@ -175,7 +175,7 @@ let dataHub = require('./dataHub.js');
                 $(e.currentTarget).find('.name-td, .artist-td, .album-td').removeClass('show');
             });
 
-            table.on('click', '.name-td, .artist-td, .album-td', (e) => {
+            table.on('click', '.name-td > i, .artist-td > i, .album-td > i', (e) => {
                 let tempVal = $(e.currentTarget).children().text();
                 let target = $(e.currentTarget);
                 mask.addClass('show').find('input').val(tempVal);
