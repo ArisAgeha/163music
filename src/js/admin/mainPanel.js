@@ -23,9 +23,9 @@ let dataHub = require('./dataHub.js');
             this.songList = {};
         },
 
-        requireSongList() {
+        async requireSongList() {
             let queryList = new AV.Query('SongList');
-            queryList.find().then((list) => {
+            await queryList.find().then((list) => {
                 for (let i = 0; i < list.length; i++) {
                     let obj = {...list[i].attributes};
                     let id = list[i].id;
@@ -42,13 +42,13 @@ let dataHub = require('./dataHub.js');
         async init(view, model) {
             this.view = view;
             this.model = model;
-            this.getSongList();
+            await this.getSongList();
             await this.initView();
             this.bindEvent();
         },
 
-        getSongList() {
-            this.model.requireSongList();
+        async getSongList() {
+            await this.model.requireSongList();
         },
 
         async initView() {
@@ -114,10 +114,15 @@ let dataHub = require('./dataHub.js');
 
         bindEvent() {
             this.watchAddList();
+            this.watchUpload();
             this.watchSwitchList();
             this.watchEditor();
             this.watchSelectButton();
+            this.watchCheckbox();
             this.watchSaveButton();
+        },
+
+        watchUpload() {
             eventHub.on('uploadstart', (data) => {
                 initSongView.call(this, data);
             });
@@ -213,6 +218,15 @@ let dataHub = require('./dataHub.js');
                     checkbox.prop('checked', 'checked');
                 }
             }) 
+        },
+
+        watchCheckbox() {
+            $(this.view.el).find('table').on('click', 'tr', (e) => {
+                let checkbox = $(e.currentTarget).find('input');
+                let checked = checkbox.prop('checked');
+                if (checked) checkbox.prop('checked', '');
+                else checkbox.prop('checked', 'checked')
+            })
         },
 
         watchSaveButton() {
