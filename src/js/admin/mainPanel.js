@@ -88,17 +88,19 @@ let dataHub = require('./dataHub.js');
                     let tbody = $(`<tbody class=_${key}></tbody>`);
                     let table = $(this.view.el).find('.table');
 
-                    for(let songID of collectionList[key]) {
-                        let songInfo = this.model.songList[songID];
-                        let trString = this.view.template
-                            .replace('__name__', songInfo.name)
-                            .replace('__artist__', songInfo.artist)
-                            .replace('__album__', songInfo.album)
-                            .replace('__link__', songInfo.link)
-                            .replace('__size__', songInfo.size)
-                            .replace('__saveStatus__', '已保存');
-                        let tr = $(trString);
-                        tbody.append(tr);
+                    if (collectionList[key]){
+                        for(let songID of collectionList[key]) {
+                            let songInfo = this.model.songList[songID];
+                            let trString = this.view.template
+                                .replace('__name__', songInfo.name)
+                                .replace('__artist__', songInfo.artist)
+                                .replace('__album__', songInfo.album)
+                                .replace('__link__', songInfo.link)
+                                .replace('__size__', songInfo.size)
+                                .replace('__saveStatus__', '已保存');
+                            let tr = $(trString);
+                            tbody.append(tr);
+                        }
                     }
                     table.append(tbody);
                 }
@@ -164,12 +166,15 @@ let dataHub = require('./dataHub.js');
         watchEditor() {
             let table = $(this.view.el).find('table');
             let mask = $(this.view.el).find('.clCreator-mask');
+
             table.on('mouseenter', 'tr',(e) => {
                 $(e.currentTarget).find('.name-td, .artist-td, .album-td').addClass('show');
             });
+
             table.on('mouseleave', 'tr',(e) => {
                 $(e.currentTarget).find('.name-td, .artist-td, .album-td').removeClass('show');
             });
+
             table.on('click', '.name-td, .artist-td, .album-td', (e) => {
                 let tempVal = $(e.currentTarget).children().text();
                 let target = $(e.currentTarget);
@@ -178,12 +183,13 @@ let dataHub = require('./dataHub.js');
 
                 mask.on('click.temp', '.cl-confirm', (e) => {
                     let tempVal = mask.find('input').val().trim();
+                    let currentVal = target.find('span').text();
                     mask.removeClass('show');
-                    if (tempVal !== '') {
+                    if (tempVal !== '' && tempVal !== currentVal) {
                         target.find('span').text(tempVal);
                         target.parent().addClass('unsaved').find('.status-td').text('修改未储存');
-                        mask.unbind('click.temp');
                     }
+                    mask.unbind('click.temp');
                 })
 
                 mask.on('click.temp', '.cl-cancel', (e) => {
@@ -197,9 +203,19 @@ let dataHub = require('./dataHub.js');
 
         watchSelectButton() {
             $(this.view.el).find('.selectAll').on('click', (e) => {
-                let currentList = dataHub.get('currentList');
-                let checked = $('._' + currentList).find('.td-checkbox > input').attr('checked');
-                $('._' + currentList).find('.td-checkbox > input').attr('checked', !checked);
+                let currentListName = dataHub.get('currentList');
+                let currentList = $('._' + currentListName);
+
+                let checkbox = currentList.find('.td-checkbox > input');
+                let checked = currentList.find(':checked');
+                console.warn(checkbox);
+                console.warn(checked);
+                console.warn(checked === checkbox)
+                if (checkbox.is(checked)) {
+                    checked.prop('checked', '');
+                } else {
+                    checkbox.prop('checked', 'checked');
+                }
             }) 
         },
 
@@ -207,9 +223,9 @@ let dataHub = require('./dataHub.js');
             $(this.view.el).find('.saveButton').on('click', () => {
                 let currentListName = dataHub.get('currentList');
                 let currentList = $('._' + currentListName);
-                let checked = currentList.find('*[checked=checked]')
-                console.log(currentList);
-                console.log(checked)
+                let checked = currentList.find('*[type=checkbox]:checked');
+                console.error(currentList);
+                console.error(checked)
             })
         }
     };
