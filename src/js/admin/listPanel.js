@@ -36,7 +36,7 @@ let dataHub = require('./dataHub.js');
 
         async checkNameDuplicate(collectionName) {
             let queryList = new AV.Query('CollectionList');
-            return await queryList.find().then((list) => {
+            return await queryList.find().then(async (list) => {
                 let dup = false;
                 for (let i = 0; i < list.length; i++) {
                     if (collectionName === list[i].attributes.collectionName) {
@@ -45,30 +45,41 @@ let dataHub = require('./dataHub.js');
                     }
                 }
                 if (!dup) {
-                    this.createLeanCloudBucket(collectionName);
-                    return true;
+                    let id = await this.createLeanCloudBucket(collectionName);
+                    return id;
                 } else {
                     return false;
                 }
             })
         },
 
-        render(collection) {
+        render(collection, id) {
             let key = collection.collectionName;
-            let val = collection.songList;
+            let val = collection.songList || [];
+            val.push({'collectionId': id});
             let obj = {};
             obj[key] = val;
             Object.assign(this.collectionList, obj);
+            /*
+            {
+                id: xxx,
+                song: {
+                    name: songID,
+                    name2: songID2,
+                    name3: songID3
+                }
+            }
+            */
         },
 
-        createLeanCloudBucket(collectionName){
+        async createLeanCloudBucket(collectionName){
             let Collection = AV.Object.extend('CollectionList');
             let collection = new Collection();
-            collection.save({
+            return await collection.save({
                 'collectionName': collectionName,
                 'songList': []
             }).then(function(object) {
-                console.log('储存成功！');
+                return object.id
             })
         }
     }
@@ -88,7 +99,7 @@ let dataHub = require('./dataHub.js');
                 for (let i = 0; i < list.length; i++) {
                     let collectionName = list[i].attributes.collectionName;
                     this.view.addList(collectionName);
-                    this.model.render(list[i].attributes)
+                    this.model.render(list[i].attributes, list[i].id)
                 }
             }, (err) => {
                 console.log(err)    
@@ -97,16 +108,24 @@ let dataHub = require('./dataHub.js');
         },
 
         bindEvent() {
-            // 点击切换歌单列表
+            this.switchCollectionList();
+            this.createCollectionList();
+            this.setSongID();
+        },
+
+        switchCollectionList() {
             let $el = $(this.view.el);
             $el.find('.musicList').on('click', 'li', (e) => {
                 this.view.render($(e.currentTarget));
                 console.log(this.model.collectionList);
             })
+        },
 
+        createCollectionList() {
+            let $el = $(this.view.el);
             let clcreator = $el.find('.mask > .clCreator-mask');
             $el.find('.createList').on('click', (e) => {
-                clcreator.addClass('show');
+                clcreator.addClass('show').find('input').focus();
 
                 clcreator.find('.cl-cancel').on('click', function() {
                     clcreator.removeClass('show');
@@ -125,19 +144,31 @@ let dataHub = require('./dataHub.js');
                     }  
                 })
             })
+        },
 
+        setSongID() {
+            eventHub.on('setSongId', (data) => {
+                let {id, targetList} = data;
+                this.model.collectionList[targetList].push(id);
+                console.log(this.model.collectionList[targetList])
+
+                let songData = AV.Object.createWithoutData('CollectionList', id);
+            })
         },
 
         async addCollectionList(collectionName) {
-            let success = await this.model.checkNameDuplicate(collectionName);
-            if (success) {
+            let id = await this.model.checkNameDuplicate(collectionName);
+            if (id) {
                 this.view.addList(collectionName);   
                 let obj = {
                     'collectionName': collectionName,
                     songList: []
                 };
-                this.model.render(obj);
-                eventHub.emit('addCollection', collectionName);
+                this.model.render(obj, id);
+                eventHub.emit('addCollection', {
+                    'collectionName': collectionName,
+                    'id': id
+                });
             }
             else this.view.throwErrTips();
         }

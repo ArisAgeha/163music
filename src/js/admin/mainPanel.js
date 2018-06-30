@@ -30,6 +30,9 @@ let dataHub = require('./dataHub.js');
                     let obj = {...list[i].attributes};
                     let id = list[i].id;
                     this.songList[id] = obj;
+                    console.error('----------')
+                    console.error(id)
+                    console.error(obj)
                 }
             }, (err) => {
                 console.log(err)    
@@ -80,9 +83,7 @@ let dataHub = require('./dataHub.js');
                     }
                 }
 
-
                 let collectionList = dataHub.get('collectionList');
-                console.error(collectionList);
 
                 for (let key in collectionList) {
                     let tbody = $(`<tbody class=_${key}></tbody>`);
@@ -90,6 +91,12 @@ let dataHub = require('./dataHub.js');
 
                     if (collectionList[key]){
                         for(let songID of collectionList[key]) {
+                            console.error(typeof songID)
+                            if (typeof songID === 'object') {
+                                tbody.prop('id', songID.collectionId);
+                                continue;
+                            }
+
                             let songInfo = this.model.songList[songID];
                             let trString = this.view.template
                                 .replace('__name__', songInfo.name)
@@ -99,6 +106,7 @@ let dataHub = require('./dataHub.js');
                                 .replace('__size__', songInfo.size)
                                 .replace('__saveStatus__', '已保存');
                             let tr = $(trString);
+                            tr.attr('id', songID);
                             tbody.append(tr);
                         }
                     }
@@ -155,7 +163,9 @@ let dataHub = require('./dataHub.js');
 
         watchAddList() {
             eventHub.on('addCollection', (data) => {
-                let tbody = $(`<tbody class=_${data}></tbody>`);
+                let {collectionName, id} = data;
+                let tbody = $(`<tbody class=_${collectionName}></tbody>`);
+                tbody.prop('id', id);
                 let table = $(this.view.el).find('.table');
                 table.append(tbody);
             })
@@ -241,6 +251,31 @@ let dataHub = require('./dataHub.js');
                 let saveList = checked.parent().parent().filter('.unsaved, .notlogin');
                 console.log(checked)
                 console.log(saveList);
+                for (let tr of saveList) {
+                    let name = $(tr).find('.name-td > span').text();
+                    let artist = $(tr).find('.artist-td > span').text();
+                    let album= $(tr).find('.album-td > span').text();
+                    let link = $(tr).find('.link-td > span').text();
+                    let size = $(tr).find('.size-td > span').text();
+                    let id = $(tr).attr('id');
+                    let songData = AV.Object.createWithoutData('SongList', id);
+
+                    songData.save({
+                        'name': name,
+                        'artist': artist,
+                        'album': album,
+                        'link': link,
+                        'size': size,
+                    }).then((info) => {
+                        $(tr).removeClass('unsaved').removeClass('notlogin').find('.status-td').text('已保存');
+                        if (!id) {
+                            $(tr).prop['id', info.id];
+                            eventHub.emit('setSongID', {'id': info.id, 'targetList': currentListName});
+                        }
+                        
+                    })
+                }
+
 
             })
         }
