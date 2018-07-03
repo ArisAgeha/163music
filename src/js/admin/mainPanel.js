@@ -20,7 +20,6 @@ let dataHub = require('./dataHub.js');
 
     let model = {
         init() {
-            console.error('mainPanel init start!');
             this.songList = {};
         },
 
@@ -53,8 +52,30 @@ let dataHub = require('./dataHub.js');
         },
 
         async initView() {
+            await initDOM.call(this);
             await buildDOM.call(this);
             showCurrentList.call(this);
+
+            async function initDOM() {
+                let tbody = $(`<tbody class="_全部歌曲"></tbody>`);
+                let table = $(this.view.el).find('.table');
+
+                for(let songID in this.model.songList) {
+                    let songInfo = this.model.songList[songID];
+                    let trString = this.view.template
+                        .replace('__name__', songInfo.name)
+                        .replace('__artist__', songInfo.artist)
+                        .replace('__album__', songInfo.album)
+                        .replace('__cover__', songInfo.cover)
+                        .replace('__link__', songInfo.link)
+                        .replace('__size__', songInfo.size)
+                        .replace('__saveStatus__', '已保存');
+                    let tr = $(trString);
+                    tr.attr('id', songID);
+                    tbody.append(tr);
+                }
+                table.append(tbody);
+            }
 
             async function buildDOM() {
                 let loadList = dataHub.get('loadList');
@@ -92,14 +113,14 @@ let dataHub = require('./dataHub.js');
                                 continue;
                             }
 
-                            let songInfo = this.model.songList[songID];
+                            let songInfo = this.model.songList[songID] || {};
                             let trString = this.view.template
-                                .replace('__name__', songInfo.name)
-                                .replace('__artist__', songInfo.artist)
-                                .replace('__album__', songInfo.album)
-                                .replace('__cover__', songInfo.cover)
-                                .replace('__link__', songInfo.link)
-                                .replace('__size__', songInfo.size)
+                                .replace('__name__', songInfo.name || '已删除')
+                                .replace('__artist__', songInfo.artist || '已删除')
+                                .replace('__album__', songInfo.album || '已删除')
+                                .replace('__cover__', songInfo.cover || '已删除')
+                                .replace('__link__', songInfo.link || '已删除')
+                                .replace('__size__', songInfo.size || '已删除')
                                 .replace('__saveStatus__', '已保存');
                             let tr = $(trString);
                             tr.attr('id', songID);
@@ -270,6 +291,7 @@ let dataHub = require('./dataHub.js');
                         $(tr).removeClass('unsaved').removeClass('notlogin').find('.status-td').text('已保存');
                         if (!id) {
                             $(tr).prop['id', info.id];
+                            if (currentListName === '全部歌曲') return;
                             await eventHub.emit('setSongID', {'id': info.id, 'targetListName': currentListName});
                         }
                     })
@@ -286,7 +308,15 @@ let dataHub = require('./dataHub.js');
                 let tdlInServer = toDeleteList.not('.notlogin');
                 for (let tr of tdlInServer) {
                     let songID = $(tr).attr('id');
-                    await eventHub.emit('deleteSong', {'targetListName': currentListName, 'songID': songID});
+                    console.warn(currentList.prop('class').indexOf('_全部歌曲') >= 0)
+                    if (currentList.prop('class').indexOf('_全部歌曲') >= 0) {
+                        let todo = AV.Object.createWithoutData('SongList', songID);
+                        todo.destroy().then(function (success) {
+                            // 删除成功
+                        })
+                    } else {
+                        await eventHub.emit('deleteSong', {'targetListName': currentListName, 'songID': songID});
+                    }
                 }
                 toDeleteList.remove();
             })

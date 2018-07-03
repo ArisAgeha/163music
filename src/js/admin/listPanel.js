@@ -10,6 +10,7 @@ let dataHub = require('./dataHub.js');
 
         render(collectionElement) {
             collectionElement.addClass('active').siblings().removeClass('active');
+            console.error(collectionElement.text())
             eventHub.emit('switchCollection', collectionElement.text());
             dataHub.set('currentList', collectionElement.text());
         },
@@ -18,7 +19,7 @@ let dataHub = require('./dataHub.js');
             let $el = $(this.el);
             let li = $('<li></li>').html(collectionName);
             let musicList = $el.find('.musicList');
-            musicList.prepend(li);
+            musicList.append(li);
             this.render(musicList.children().eq(0));
         },
 
@@ -94,6 +95,7 @@ let dataHub = require('./dataHub.js');
         },
 
         async getList() {
+            this.view.addList('全部歌曲');
             let queryList = new AV.Query('CollectionList');
             await queryList.find().then((list) => {
                 for (let i = 0; i < list.length; i++) {
