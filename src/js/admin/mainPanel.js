@@ -11,6 +11,7 @@ let dataHub = require('./dataHub.js');
         <td class="name-td"><span>__name__</span><i>&#xe636</i></td>
         <td class="artist-td"><span>__artist__</span><i>&#xe636</i></td>
         <td class="album-td"><span>__album__</span><i>&#xe636</i></td>
+        <td class="cover-td"><span>__cover__</span><i>&#xe636</i></td>
         <td class="link-td"><span>__link__</span></td>
         <td class="size-td"><span>__size__</span></td>
         <td class="status-td">__saveStatus__</th>
@@ -96,6 +97,7 @@ let dataHub = require('./dataHub.js');
                                 .replace('__name__', songInfo.name)
                                 .replace('__artist__', songInfo.artist)
                                 .replace('__album__', songInfo.album)
+                                .replace('__cover__', songInfo.cover)
                                 .replace('__link__', songInfo.link)
                                 .replace('__size__', songInfo.size)
                                 .replace('__saveStatus__', '已保存');
@@ -141,6 +143,7 @@ let dataHub = require('./dataHub.js');
                     .replace('__name__', data.name)
                     .replace('__artist__', data.artist)
                     .replace('__size__', data.size)
+                    .replace('__cover__', undefined)
                     .replace('__saveStatus__', data.saveStatus);
                 let tr = $(trString);
                 tr.addClass('uploading');
@@ -179,21 +182,22 @@ let dataHub = require('./dataHub.js');
             let mask = $(this.view.el).find('.clCreator-mask');
 
             table.on('mouseenter', 'tr',(e) => {
-                $(e.currentTarget).find('.name-td, .artist-td, .album-td').addClass('show');
+                $(e.currentTarget).find('.name-td, .artist-td, .album-td, .cover-td').addClass('show');
             });
 
             table.on('mouseleave', 'tr',(e) => {
-                $(e.currentTarget).find('.name-td, .artist-td, .album-td').removeClass('show');
+                $(e.currentTarget).find('.name-td, .artist-td, .album-td, .cover-td').removeClass('show');
             });
 
-            table.on('click', '.name-td > i, .artist-td > i, .album-td > i', (e) => {
+            table.on('click', '.name-td > i, .artist-td > i, .album-td > i, .cover-td > i', (e) => {
                 e.stopPropagation();
                 let target = $(e.currentTarget);
                 let currentVal = target.siblings('span').text();
                 mask.addClass('show').find('input').val(currentVal);
                 mask.find('input').focus();
 
-                mask.on('click.temp', '.cl-confirm', (ee) => {
+                mask.on('click.temp keydown', '.cl-confirm', (ee) => {
+                    console.log(ee)
                     let newVal = mask.find('input').val().trim();
                     mask.removeClass('show');
                     if (newVal !== '' && newVal !== currentVal) {
@@ -248,7 +252,8 @@ let dataHub = require('./dataHub.js');
                 for (let tr of saveList) {
                     let name = $(tr).find('.name-td > span').text();
                     let artist = $(tr).find('.artist-td > span').text();
-                    let album= $(tr).find('.album-td > span').text();
+                    let album = $(tr).find('.album-td > span').text();
+                    let cover = $(tr).find('.cover-td > span').text();
                     let link = $(tr).find('.link-td > span').text();
                     let size = $(tr).find('.size-td > span').text();
                     let id = $(tr).attr('id');
@@ -258,6 +263,7 @@ let dataHub = require('./dataHub.js');
                         'name': name,
                         'artist': artist,
                         'album': album,
+                        'cover': cover,
                         'link': link,
                         'size': size,
                     }).then(async (info) => {
