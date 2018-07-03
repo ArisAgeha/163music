@@ -124,6 +124,9 @@ let dataHub = require('./dataHub.js');
                                 .replace('__saveStatus__', '已保存');
                             let tr = $(trString);
                             tr.attr('id', songID);
+                            if (!this.model.songList[songID]) {
+                                tr.addClass('hasDelete');
+                            }
                             tbody.append(tr);
                         }
                     }
@@ -269,7 +272,7 @@ let dataHub = require('./dataHub.js');
                 let currentListName = dataHub.get('currentList');
                 let currentList = $('._' + currentListName);
                 let checked = currentList.find('.td-checkbox > input').filter(':checked');
-                let saveList = checked.parent().parent().filter('.unsaved, .notlogin');
+                let saveList = checked.parent().parent().filter('.unsaved, .notlogin').not('.hasDelete');
                 for (let tr of saveList) {
                     let name = $(tr).find('.name-td > span').text();
                     let artist = $(tr).find('.artist-td > span').text();

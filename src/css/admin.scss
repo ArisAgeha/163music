@@ -545,6 +545,9 @@ main {
                     tr.uploading {
                         background-color: rgba(25, 137, 250, 0.04);
                     }
+                    tr.hasDelete {
+						background-color: rgba(204, 204, 204, 0.4);
+                    }
                     tr.hidden {
                         display: none;
                     }
