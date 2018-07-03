@@ -290,12 +290,14 @@ main {
                     cursor: pointer;
                     user-select: none;
                 }
+                .selectAll {
+                    margin: 0;
+                }
 
                 .saveButton {
                     color: rgb(20, 218, 37);
                     background-color: rgba(15, 245, 35, 0.06);
                     border-color: rgb(20, 218, 37);
-                    margin: 0;
                 }
                 .saveButton:hover {
                     background-color: rgba(15, 245, 35, 0.2);
