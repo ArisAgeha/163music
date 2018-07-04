@@ -196,11 +196,47 @@ main {
                 color: red;
             }
         }
-        .signupPanel {
-            display: none;
-        }
         .userPanel {
             display: none;
+            margin:0 10px;
+            width: 100%;
+
+            .myCollection {
+                width: 100%;
+            }
+
+            .myCollection > li {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                border-bottom: 1px solid #e6e9f0;
+
+                .collectionInformation {
+                    height: 55px;
+                    display: flex;
+                    align-items: center;
+
+                    .cover {
+                        width: 55px; 
+                        height: 100%;
+                        margin-right: 5px;
+                        display: flex;
+                        align-items: center;
+
+                        img {
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            height: 45px;
+                            weight: 45px;
+                        }
+                    }
+                }
+
+                .deleteCollection {
+                    font-size: 16px;
+                }
+            }
         }
     }
 
@@ -208,9 +244,6 @@ main {
         display: flex;
 
         .loginPanel.show {
-            display: flex;
-        }
-        .signupPanel.show {
             display: flex;
         }
         .userPanel.show {
