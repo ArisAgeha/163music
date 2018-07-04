@@ -9,7 +9,7 @@
 ul,ol {padding: 0; margin: 0;}
 li {list-style: none;}
 a {text-decoration: none; color: inherit;}
-input {outline:none; color: rgb(85, 85, 85);}
+input {outline:none; color: rgb(85, 85, 85);background-color: #f2f4f5;}
 @font-face {
     font-family: 'core_sans';
     src: url('../font/core_sans.woff2');
@@ -139,7 +139,6 @@ main {
                     }
                 }
             }
-
         }
     }
 
@@ -148,11 +147,70 @@ main {
     }
 
     .user-main {
+        min-height: 100%;
         display: none;
+
+        .loginPanel {
+            width: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+
+            .login-username {
+                width: 90%;
+                padding-top: 40px;
+                padding-bottom: 20px;
+            }
+            .login-password {
+                width: 90%;
+            }
+
+            input {
+                width: 100%;
+                height: 24px;
+                font-size: 14px;
+                border-bottom: 1px solid #e6e9f0;
+                color: black;
+            }
+
+            .controlPanel {
+                width: 90%;
+                    margin-top: 40px;
+
+                div {
+                    width: 100%;
+                    border-radius: 999px;
+                    background-color: rgb(156,39,176);
+                    height: 40px;
+                    margin: 20px 0;
+                    text-align: center;
+                    line-height: 40px;
+                    color: white;
+                    font-size: 16px;
+                }
+            }
+        }
+        .signupPanel {
+            display: none;
+        }
+        .userPanel {
+            display: none;
+        }
     }
 
     .user-main.show {
         display: flex;
+
+        .loginPanel.show {
+            display: flex;
+        }
+        .signupPanel.show {
+            display: flex;
+        }
+        .userPanel.show {
+            display: flex;
+        }
     }
 
     .search-main {
