@@ -64,6 +64,10 @@ header {
             position: relative;
         }
 
+        .active {
+            color: rgb(156,39,176);
+        }
+
         .active::after {
             content: '';
             width: 100%;
@@ -253,6 +257,41 @@ main {
 
     .search-main {
         display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+
+        input {
+            font-size: 16px;
+            height: 30px;
+            width: 90%;
+            border-bottom: 1px solid #e6e9f0;
+        }
+
+        ol {
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+
+            li {
+                display: flex;
+                flex-direction: column;
+                border-bottom: 1px solid #e6e9f0;
+                justify-content: center;
+                height: 45px;
+
+                .songName {
+                    font-size: 16px;
+                }
+
+                .imformation {
+                    color: #555555;
+                    font-size: 10px;
+                }
+
+            }
+        }
     }
 
     .search-main.show {
