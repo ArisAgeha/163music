@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>扬羽的音乐室</title>
+    <script src="https://at.alicdn.com/t/font_732623_flbii1xbdf4.js"></script>
 </head>
 <body>
     <header>
@@ -113,14 +114,30 @@
             </div>
             <div class="songController">
                 <div class="toggleButton">
-                    <div class="playButton show"></div>
-                    <div class="pauseButton"></div>
+                    <div class="playButton show">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-bofang"></use>
+                        </svg>
+                    </div>
+                    <div class="pauseButton">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-zanting"></use>
+                        </svg>
+                    </div>
                 </div>
-                <div class="toplaylistButton"></div>
+                <div class="toplaylistButton">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-icon-music-lsit"></use>
+                    </svg>
+                </div>
             </div>
         </div>
 
-        <div class="toplaylistWrapper">
+        <div class="toplaylistWrapper show">
+            <div class="shadowArea">
+                
+            </div>
+
             <ol class="toplaylist">
                 <li>
                     <span class="toplay-songName">about me</span>
