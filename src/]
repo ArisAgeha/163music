@@ -476,54 +476,10 @@ footer {
             top: 0;
             background-image: url("../img/1.png");
             background-position: 50%;
-            background-repeat: no-repeat;
             filter: blur(20px);
             transform: scale(1.5);
             background-size: cover;
             z-index: -1;
-        }
-    }
-    .collectionList {
-        background-color: rgb(242,244,245);
-        padding: 0 15px;
-        z-index:1;
-        flex:1;
-
-        .playAllWrapper {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            height: 45px;
-            border-bottom: 1px solid #e6e9f0;
-            .playAllButton {
-                font-size: 18px;
-                padding-right: 15px;
-            }
-            .playAllText {
-                font-size: 16px;
-            }
-        }
-
-        .songList {
-            width: 100%;
-
-            li {
-                display: flex;
-                flex-direction: column;
-                border-bottom: 1px solid #e6e9f0;
-                justify-content: center;
-                height: 55px;
-
-                .songName {
-                    font-size: 16px;
-                }
-
-                .imformation {
-                    color: #555555;
-                    font-size: 10px;
-                }
-
-            }
         }
     }
 }
