@@ -34,11 +34,20 @@ header {
         height: 65px;
         background-color: rgb(156,39,176);
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
         font-size: 20px;
         color: white;
-        padding: 0 10px;
+        padding: 0 20px;
+
+        .logo {
+            font-size: 40px;
+            margin-right: 20px;
+        }
+
+        .selfLogo {
+            font-size: 18px;
+        }
     }
     .tabPanel {
         display: flex;
@@ -57,6 +66,29 @@ main {
     overflow: auto;
     flex: 1;
 
+    .discovery-main {
+        display:none;
+    }
+
+    .discovery-main.show {
+        display: flex;
+    }
+
+    .user-main {
+        display: none;
+    }
+
+    .user-main.show {
+        display: flex;
+    }
+
+    .search-main {
+        display: none;
+    }
+
+    .search-main.show {
+        display: flex;
+    }
 }
 
 footer {
