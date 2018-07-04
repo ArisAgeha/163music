@@ -84,6 +84,50 @@ main {
 
     .discovery-main {
         display:none;
+        flex-direction: column;
+
+        .recommandList {
+            display: flex;
+            flex-direction: column;
+
+            .introduction {
+                margin: 15px 0;
+                font-size: 16px;
+                position: relative;
+                padding-left: 15px;
+                vertical-align: middle;
+            }
+            .introduction::before {
+                content: '';
+                height: 70%;
+                border-left: 3px solid rgb(156,39,176);
+                display: inline-block;
+                position: absolute;
+                top: 15%;
+                left: 0;
+            }
+
+            .exhibition {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+
+                .item {
+                    width: 32.8%;
+                    .itemCover {
+                        width: 100%;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                        padding-bottom: 100%;
+                    }
+
+                    .itemName {
+
+                    }
+                }
+            }
+
+        }
     }
 
     .discovery-main.show {
