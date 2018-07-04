@@ -141,7 +141,44 @@ footer {
         }
 
         .toplaylist {
-            max-width: 66%;
+            padding: 0 10px;
+            max-height: 66%;
+            min-height: 100px;
+            background-color: white;
+            border-top: 4px solid rgb(128,128,128);
+            overflow: auto;
+
+            li {
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid #e6e9f0;
+                font-size: 16px;
+
+                .playingHint {
+                    display: none;
+                }
+
+                .split, .toplay-artist{
+                    font-size: 12px;
+                    color: rgb(128, 128, 128);
+                }
+
+                .toplay-deleteButton {
+                    font-size: 14px;
+                }
+            }
+
+            li.playing {
+                .playingHint {
+                    display: inline;
+                }
+
+                .playingHint, .toplay-songName, .split, .toplay-artist {
+                    color: rgb(156,39,176);
+                }
+            }
         }
     }
 
