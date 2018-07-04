@@ -2,8 +2,134 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>扬羽的音乐室</title>
 </head>
 <body>
+    <header>
+        <div class="title">
+            <div class="logo"></div>
+            <div class="selfLogo">あげは</div>
+        </div>
+        <div class="tabPanel">
+            <div class="discovery">发现</div>
+            <div class="user">我的</div>
+            <div class="search">搜索</div>
+        </div>
+    </header>
+    <main>
+    <div class="discovery-main">
+        <div class="recommandList">
+            <div class="introduction">推荐歌单</div>
+            <div class="exhibition">
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+            </div>
+        </div>
+        <div class="recommandSongs">
+            <div class="introduction">推荐歌单</div>
+            <div class="exhibition">
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="user-main">
+        <div class="loginPanel">
+            <div class="login-username">
+                <div class="login-usernmame-text">输入用户名</div>
+                <input class="login-username-input" type="text" placeHolder="Username">
+            </div>
+            <div class="login-password">
+                <div class="login-password-text">输入密码</div>
+                <input class="login-password-input" type="text" placeHolder="Password">
+            </div>
+            <div class="controlPanel">
+                <div class="loginButton">登录</div>
+                <div class="signupButton">注册</div>
+            </div>
+        </div>
+        <div class="signupPanel">
+            <div class="login-username">
+                <div class="login-usernmame-text">输入用户名</div>
+                <input class="login-username-input" type="text" placeHolder="Username">
+            </div>
+            <div class="login-password">
+                <div class="login-password-text">输入密码</div>
+                <input class="login-password-input" type="text" placeHolder="Password">
+            </div>
+            <div class="login-password-confirm">
+                <div class="login-password-text">确认密码</div>
+                <input class="login-password-input" type="text" placeHolder="Password">
+            </div>
+            <div class="controlPanel">
+                <div class="signupButton">注册</div>
+                <div class="loginButton">登录</div>
+            </div>
+        </div>
+
+        <div class="userPanel">
+            <div class="myCollection">
+                <ol>
+                    <li>我喜欢的音乐</li>
+                    <li>幻想游戏</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-main">
+        <input type="text" placeHolder="歌曲、歌手、专辑">
+        <div class="search-result-wrapper">
+            <ol class="search-wrapper">
+                <li id="3c90342mtu0c93">
+                    <div class="songName">about me</div>
+                    <div class="imformation">
+                        <span class="artist">茶理理</span>
+                        <div class="album">热歌慢摇</div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+    </main>
+    <footer>
+        <div class="musicplayer">
+            <div class="songInformation">
+                <div class="cover"></div>
+                <div class="songInformation-text">
+                    <div class="songName">About me</div>
+                    <div class="artist">茶理理</div>
+                </div>
+            </div>
+            <div class="songController">
+                <div class="toggleButton">
+                    <div class="playButton"></div>
+                    <div class="pauseButton"></div>
+                </div>
+                <div class="toplaylistButton"></div>
+            </div>
+            <div class="toplaylistWrapper">
+                <ol class="toplaylist">
+                    <li>
+                        <div class="toplay-information">
+                            <span class="toplay-songName">about me</span>
+                            <span class="toplay-artist">茶理理</span>
+                            <span class="toplay-deleteButton">X</span>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </footer>
 <script type="text/javascript" src="dist/js/app.js"></script></body>
 </html>
