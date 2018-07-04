@@ -56,7 +56,23 @@ header {
         height: 40px;
         background-color: rgb(254,255,255);
 
-        display: flex;
+        div {
+            height: 100%;
+            line-height: 40px;
+            width: 75px;
+            text-align: center;
+            position: relative;
+        }
+
+        .active::after {
+            content: '';
+            width: 100%;
+            border-bottom: 3px solid rgb(156,39,176);
+            display: inline-block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
     }
 }
 
