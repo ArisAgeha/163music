@@ -114,15 +114,28 @@ main {
 
                 .item {
                     width: 32.8%;
+                    padding-bottom: 20px;
                     .itemCover {
                         width: 100%;
-                        background-repeat: no-repeat;
-                        background-size: cover;
                         padding-bottom: 100%;
+                        position: relative;
+                        
+                        img {
+                            width: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                        }
                     }
 
                     .itemName {
-
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                        font-size: 12px;
+                        line-height: 1.2;
+                        display: -webkit-box;
+                        overflow: hidden;
+                        padding: 6px 2px 0 6px;
                     }
                 }
             }
