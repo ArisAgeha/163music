@@ -114,7 +114,8 @@ main {
         display:none;
         flex-direction: column;
 
-        .recommandList {
+        .recommandList,
+        .recommandSongs{
             display: flex;
             flex-direction: column;
 
