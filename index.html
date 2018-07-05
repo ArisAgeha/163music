@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>扬羽的音乐室</title>
-    <script src="https://at.alicdn.com/t/font_732623_w9x1ti13vw.js"></script>
+    <script src="https://at.alicdn.com/t/font_732623_aroj2fz6i5b.js"></script>
 </head>
 <body>
     <header>
@@ -358,13 +358,17 @@
         </div>
     </div>
 
-    <div class="playController">
-
+    <div class="playController show">
+        <div class="background"></div>
         <div class="head">
-            <div class="returnButton"></div>
+            <div class="returnButton">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-return"></use>
+                </svg>
+            </div>
             <div class="songInformation">
-                <div class="songName"></div>
-                <div class="artist"></div>
+                <div class="songName">About me</div>
+                <div class="artist">茶理理</div>
             </div>
         </div>
 
@@ -376,12 +380,45 @@
         </div>
 
         <div class="controlPanel">
-            <div class="progressBar"></div>
-            <div class="addToCollection"></div>
-            <div class="prevSong"></div>
-            <div class="toggle"></div>
-            <div class="nextSong"></div>
-            <div class="listMenu"></div>
+            <div class="progressBar">
+                <div class="totalBar"></div>
+                <div class="currentBar"></div>
+            </div>
+
+            <div class="controlButton">
+                <div class="addToCollection">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-collect"></use>
+                    </svg>
+                </div>
+
+                <div class="prevSong">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-verticalright"></use>
+                    </svg>
+                </div>
+
+                <div class="toggle">
+                    <svg class="icon play show" aria-hidden="true">
+                        <use xlink:href="#icon-bofang"></use>
+                    </svg>
+                    <svg class="icon pause" aria-hidden="true">
+                        <use xlink:href="#icon-bofang"></use>
+                    </svg>
+                </div>
+
+                <div class="nextSong">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-verticalleft"></use>
+                    </svg>
+                </div>
+
+                <div class="listMenu">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-icon-music-lsit"></use>
+                    </svg>
+                </div>
+            </div>
         </div>
     </div>
 <script type="text/javascript" src="dist/js/app.js"></script></body>
