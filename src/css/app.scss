@@ -608,13 +608,22 @@ footer {
             flex-direction: column;
             justify-content: center;
             padding-left: 10px;
+            flex: 1;
 
             .songName {
+                width: 60%;
+                overflow: hidden;
+                white-space:nowrap;
+                text-overflow:ellipsis;
                 font-size: 18px;
                 color: #fff;
             }
 
             .artist {
+                width: 60%;
+                overflow: hidden;
+                white-space:nowrap;
+                text-overflow:ellipsis;
                 font-size: 14px;
                 color: #bbbbbb;
             }
