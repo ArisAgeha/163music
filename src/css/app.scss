@@ -1,3 +1,8 @@
+@keyframes circling{
+    0% {transform: rotate(0deg); } 
+    100% {transform: rotate(360deg); } 
+}
+
 .icon {
     width: 1em; height: 1em;
     vertical-align: -0.15em;
@@ -123,7 +128,7 @@ main {
                         width: 100%;
                         padding-bottom: 100%;
                         position: relative;
-                        
+
                         img {
                             width: 100%;
                             position: absolute;
@@ -594,6 +599,74 @@ footer {
 
     .discWrapper {
         flex: 1;
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        .disc {
+            width: 250px;
+            height: 250px;
+            @media(min-width: 414px) {
+                width: 350px;
+                height: 350px;
+            }
+            @media(min-width: 360px) {
+                width: 300px;
+                height: 300px;
+            }
+            background-image: url('../img/dist.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            position: absolute;
+            z-index: -1;
+            overflow: hidden;
+
+            .coverWrapper {
+                width: 250px;
+                height: 250px;
+                @media(min-width: 414px) {
+                    width: 350px;
+                    height: 350px;
+                }
+                @media(min-width: 360px) {
+                    width: 300px;
+                    height: 300px;
+                }
+                border-radius: 50%;
+                position: absolute;
+                overflow: hidden;
+                transform: scale(0.65);
+                .cover {
+                    position: absolute;
+                    background-size: contain;
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+
+            .disc-light {
+                width: 250px;
+                height: 250px;
+                @media(min-width: 414px) {
+                    width: 350px;
+                    height: 350px;
+                }
+                @media(min-width: 360px) {
+                    width: 300px;
+                    height: 300px;
+                }
+                background-image: url('../img/dist-light.png');
+                background-size: cover;
+                background-repeat: no-repeat;
+                position: absolute;
+                z-index: -1;
+            }
+        }
+        .disc.playing {
+            animation: circling 20s infinite linear;
+        }
     }
 
     .controlPanel {
