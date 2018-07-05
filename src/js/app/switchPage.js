@@ -74,13 +74,11 @@ function watchToplaylistMenu() {
 function watchPlayControllerMenu() {
     $('footer .songInformation').on('click', () => {
         $('.playController').addClass('show');
-        console.log(1);
     })
 }
 
 function watchReturnButton() {
     $('.playController > .head > .returnButton').on('click', () => {
         $('.playController').removeClass('show');
-        console.log(1)
     })
 }
