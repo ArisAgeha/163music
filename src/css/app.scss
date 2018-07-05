@@ -522,12 +522,20 @@ footer {
                     color: #555555;
                     font-size: 10px;
                 }
-
             }
         }
     }
 }
 
 .collectionViewer.show {
+    display: flex;
+}
+
+.playController {
+    display: none;
+
+}
+
+.playController.show {
     display: flex;
 }
