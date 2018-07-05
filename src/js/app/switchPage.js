@@ -1,6 +1,12 @@
 let $ = require('jquery');
 watchTabs();
 watchToplaylistMenu();
+watchPlayControllerMenu();
+watchReturnButton();
+
+$('body')[0].addEventListener('touchmove', (e)=>{
+    e.preventDefault()
+},{passive:true});
 
 function watchTabs() {
     watchClickTabs('.discovery');
@@ -17,7 +23,7 @@ function watchTabs() {
 
     function watchTouchTabs() {
         $('main').find('.discovery-main').on('touchstart', (e) => {
-            e.preventDefault();
+            e.stopPropagation();
             let startX = e.originalEvent.changedTouches[0].pageX;
             $(e.currentTarget).one('touchend', (ee) => {
                 let endX = ee.originalEvent.changedTouches[0].pageX
@@ -28,7 +34,7 @@ function watchTabs() {
             })
         })
         $('main').find('.user-main').on('touchstart', (e) => {
-            e.preventDefault();
+            e.stopPropagation();
             let startX = e.originalEvent.changedTouches[0].pageX;
             $(e.currentTarget).one('touchend', (ee) => {
                 let endX = ee.originalEvent.changedTouches[0].pageX
@@ -42,7 +48,7 @@ function watchTabs() {
             })
         })
         $('main').find('.search-main').on('touchstart', (e) => {
-            e.preventDefault();
+            e.stopPropagation();
             let startX = e.originalEvent.changedTouches[0].pageX;
             $(e.currentTarget).one('touchend', (ee) => {
                 let endX = ee.originalEvent.changedTouches[0].pageX
@@ -62,5 +68,19 @@ function watchToplaylistMenu() {
 
     $('footer .toplaylistWrapper .shadowArea').on('click', (e) => {
         $(e.currentTarget).parent().removeClass('show');
+    })
+}
+
+function watchPlayControllerMenu() {
+    $('footer .songInformation').on('click', () => {
+        $('.playController').addClass('show');
+        console.log(1);
+    })
+}
+
+function watchReturnButton() {
+    $('.playController > .head > .returnButton').on('click', () => {
+        $('.playController').removeClass('show');
+        console.log(1)
     })
 }
