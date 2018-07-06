@@ -25,9 +25,11 @@ function watchTabs() {
         $('main').find('.discovery-main').on('touchstart', (e) => {
             e.stopPropagation();
             let startX = e.originalEvent.changedTouches[0].pageX;
+            let startY = e.originalEvent.changedTouches[0].pageY;
             $(e.currentTarget).one('touchend', (ee) => {
-                let endX = ee.originalEvent.changedTouches[0].pageX
-                if (startX - endX > 100) {
+                let endX = ee.originalEvent.changedTouches[0].pageX;
+                let endY = ee.originalEvent.changedTouches[0].pageY;
+                if (startX - endX > 100 && endY - startY < startX - endX) {
                     $(e.currentTarget).removeClass('show').siblings('.user-main').addClass('show');
                     $('.tabPanel').find('.discovery').removeClass('active').siblings('.user').addClass('active');
                 }
@@ -36,12 +38,14 @@ function watchTabs() {
         $('main').find('.user-main').on('touchstart', (e) => {
             e.stopPropagation();
             let startX = e.originalEvent.changedTouches[0].pageX;
+            let startY = e.originalEvent.changedTouches[0].pageY;
             $(e.currentTarget).one('touchend', (ee) => {
-                let endX = ee.originalEvent.changedTouches[0].pageX
-                if (startX - endX > 100) {
+                let endX = ee.originalEvent.changedTouches[0].pageX;
+                let endY = ee.originalEvent.changedTouches[0].pageY;
+                if (startX - endX > 100 && endY - startY < startX - endX) {
                     $(e.currentTarget).removeClass('show').siblings('.search-main').addClass('show');
                     $('.tabPanel').find('.user').removeClass('active').siblings('.search').addClass('active');
-                } else if (endX - startX > 100) {
+                } else if (endX - startX > 100 && startY - endY < endX - startX) {
                     $(e.currentTarget).removeClass('show').siblings('.discovery-main').addClass('show');
                     $('.tabPanel').find('.user').removeClass('active').siblings('.discovery').addClass('active');
                 }
@@ -50,9 +54,11 @@ function watchTabs() {
         $('main').find('.search-main').on('touchstart', (e) => {
             e.stopPropagation();
             let startX = e.originalEvent.changedTouches[0].pageX;
+            let startY = e.originalEvent.changedTouches[0].pageY;
             $(e.currentTarget).one('touchend', (ee) => {
-                let endX = ee.originalEvent.changedTouches[0].pageX
-                if (endX - startX > 100) {
+                let endX = ee.originalEvent.changedTouches[0].pageX;
+                let endY = ee.originalEvent.changedTouches[0].pageY;
+                if (endX - startX > 100 && startY - endY < endX - startX) {
                     $(e.currentTarget).removeClass('show').siblings('.user-main').addClass('show');
                     $('.tabPanel').find('.search').removeClass('active').siblings('.user').addClass('active');
                 } 
