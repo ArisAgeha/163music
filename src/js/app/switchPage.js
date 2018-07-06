@@ -81,4 +81,7 @@ function watchReturnButton() {
     $('.playController > .head > .returnButton').on('click', () => {
         $('.playController').removeClass('show');
     })
+    $('.collectionViewer .collectionHead > svg').on('click', () => {
+        $('.collectionViewer').removeClass('show');
+    })
 }

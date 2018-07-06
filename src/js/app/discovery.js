@@ -13,8 +13,10 @@ let view = {
 
     render(targetName, data) {
         let item = this.template.replace("__src__", data.src).replace("__itemName__", data.itemName);
-        $(item).addClass(data.id);
-        $(targetName).append(item);
+        let $item = $(item).addClass(data.id);
+        console.log($(item))
+        console.log(data.id)
+        $(targetName).append($item);
     }
 }
 
@@ -51,6 +53,7 @@ let controller = {
         this.model = model;
         await this.model.init();
         this.updateView();
+        this.bindEvent();
     },
     
     updateView() {
@@ -76,6 +79,24 @@ let controller = {
             console.log(item.attributes)
             this.view.render(target, data);
         }
+    },
+
+    bindEvent() {
+        this.watchCollection();
+        this.watchSongs();
+    },
+
+    watchCollection() {
+        let viewer = $('.collectionViewer');
+        let collection = $(this.view.el).find('.recommandList .exhibition .item');
+        collection.on('click touch', () => {
+            viewer.addClass('show');
+            
+        })
+    },
+
+    watchSongs() {
+        
     }
 }
 
