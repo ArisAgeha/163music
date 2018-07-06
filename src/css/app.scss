@@ -292,12 +292,28 @@ main {
         margin-top: 30px;
         min-height: 100%;
 
-        input {
-            font-size: 16px;
-            height: 30px;
+        .searchWrapper {
             width: 90%;
-            border-bottom: 1px solid #e6e9f0;
+            height: 30px;
+            position: relative;
+
+            input {
+                font-size: 16px;
+                height: 30px;
+                width: 100%;
+                padding-right: 20%;
+                border-bottom: 1px solid rgb(156,39,176);
+            }
+
+            .searchButton {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                font-size: 24px;
+                color: rgb(156,39,176);
+            }
         }
+
 
         ol {
             width: 90%;
