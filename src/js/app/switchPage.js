@@ -29,7 +29,7 @@ function watchTabs() {
             $(e.currentTarget).one('touchend', (ee) => {
                 let endX = ee.originalEvent.changedTouches[0].pageX;
                 let endY = ee.originalEvent.changedTouches[0].pageY;
-                if (startX - endX > 80 && endY - startY < startX - endX) {
+                if (startX - endX > 80 && endY - startY < 0.90*(startX - endX)) {
                     $(e.currentTarget).removeClass('show').siblings('.user-main').addClass('show');
                     $('.tabPanel').find('.discovery').removeClass('active').siblings('.user').addClass('active');
                 }
@@ -42,10 +42,10 @@ function watchTabs() {
             $(e.currentTarget).one('touchend', (ee) => {
                 let endX = ee.originalEvent.changedTouches[0].pageX;
                 let endY = ee.originalEvent.changedTouches[0].pageY;
-                if (startX - endX > 80 && endY - startY < startX - endX) {
+                if (startX - endX > 80 && endY - startY < 0.90*(startX - endX)) {
                     $(e.currentTarget).removeClass('show').siblings('.search-main').addClass('show');
                     $('.tabPanel').find('.user').removeClass('active').siblings('.search').addClass('active');
-                } else if (endX - startX > 80 && endY - startY < endX - startX) {
+                } else if (endX - startX > 80 && endY - startY < 0.90*(endX - startX)) {
                     $(e.currentTarget).removeClass('show').siblings('.discovery-main').addClass('show');
                     $('.tabPanel').find('.user').removeClass('active').siblings('.discovery').addClass('active');
                 }
@@ -58,7 +58,7 @@ function watchTabs() {
             $(e.currentTarget).one('touchend', (ee) => {
                 let endX = ee.originalEvent.changedTouches[0].pageX;
                 let endY = ee.originalEvent.changedTouches[0].pageY;
-                if (endX - startX > 80 && endY - startY < endX - startX) {
+                if (endX - startX > 80 && endY - startY < 0.90*(endX - startX)) {
                     $(e.currentTarget).removeClass('show').siblings('.user-main').addClass('show');
                     $('.tabPanel').find('.search').removeClass('active').siblings('.user').addClass('active');
                 } 
