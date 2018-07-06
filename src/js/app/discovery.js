@@ -1,5 +1,6 @@
 let AV = require('./app-leancloud.js');
 let $ = require('jquery');
+let eventHub = require('./eventHub.js');
 
 let view = {
     el: '.discovery-main',
@@ -13,9 +14,7 @@ let view = {
 
     render(targetName, data) {
         let item = this.template.replace("__src__", data.src).replace("__itemName__", data.itemName);
-        let $item = $(item).addClass(data.id);
-        console.log($(item))
-        console.log(data.id)
+        let $item = $(item).prop("id", data.id);
         $(targetName).append($item);
     }
 }
@@ -30,8 +29,6 @@ let model = {
     async getData() {
         this.lastestCollection = await queryData('CollectionList', 6);
         this.lastestSong = await queryData('SongList', 12);
-        console.log(this.lastestSong)
-        console.log(this.lastestCollection)
         
         async function queryData(className, num) {
             let query = new AV.Query(className);
@@ -65,7 +62,6 @@ let controller = {
                 itemName: item.attributes.collectionName
             }
             if (item.attributes.cover === 'undefined' || !item.attributes.cover) data.src = 'http://pbeu96c1d.bkt.clouddn.com/2.jpg';
-            console.log(item.attributes)
             this.view.render(target, data);
         }
         for (let item of this.model.lastestSong) {
@@ -76,7 +72,6 @@ let controller = {
                 itemName: item.attributes.name
             }
             if (item.attributes.cover === 'undefined') data.src = 'http://pbeu96c1d.bkt.clouddn.com/14.jpg';  
-            console.log(item.attributes)
             this.view.render(target, data);
         }
     },
@@ -89,14 +84,19 @@ let controller = {
     watchCollection() {
         let viewer = $('.collectionViewer');
         let collection = $(this.view.el).find('.recommandList .exhibition .item');
-        collection.on('click touch', () => {
+        collection.on('click touch', (e) => {
             viewer.addClass('show');
-            
+            let id = e.currentTarget.id;
+            eventHub.emit('showCollectionList', {id: id});
         })
     },
 
     watchSongs() {
-        
+        let song = $(this.view.el).find('.recommandSongs .exhibition .item');
+        song.on('click touch', (e) => {
+            let songID = e.currentTarget.id;
+            eventHub.emit('playSong', {songID: songID});
+        })
     }
 }
 
