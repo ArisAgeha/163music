@@ -6,31 +6,39 @@ let view = {
     el: '.collectionViewer',
     template: `
     <li>
-        <div class="songName">about me</div>
+        <div class="songName">__songName__</div>
         <div class="information">
-            <span class="artist">茶理理</span>
+            <span class="artist">__artist__</span>
             <span class="split"> - </span>
-            <span class="album">热歌慢摇</span>
+            <span class="album">__album__</span>
         </div>
     </li>`,
 
     render(data) {
-        let searchWrapper = $(this.el).find('.search-wrapper');
+        let target = $(this.el).find('.collectionList .songList');
         let itemString = this.template.replace('__songName__', data.songName)
                                     .replace('__artist__', data.artist)
                                     .replace('__album__', data.album);
         let item = $(itemString);
         item.prop('id', data.id);
-        // searchWrapper.append(item);
+        target.append(item);
     }
 }
 
 let model = {
-    async querySong(id) {
+    async queryListData(id) {
         let query = new AV.Query('CollectionList');
         return await query.get(id).then(async (list) => {
             return list;
         })
+    },
+
+    async querySongs(IDs) {
+        let query = new AV.Query('SongList');
+        query.containedIn('objectId', IDs);
+        return await query.find().then(function(results) {
+            return results;
+        });
     }
 }
 
@@ -51,16 +59,29 @@ let controller = {
             let coverImg = $el.find('.collectionTheme > .cover > img');
             let collectionTitle = $el.find('.collectionTheme > .collectionTitle');
             let collectionList = $el.find('.collectionList .songList');
-            let songData = await this.model.querySong(data.id);
-            coverImg.prop("src", songData.attributes.coverLink || 'http://pbeu96c1d.bkt.clouddn.com/14.jpg');
-            console.log(coverImg)
-            for (let item of songData){
 
+            let listData = await this.model.queryListData(data.id);
+            coverImg.prop("src", listData.attributes.coverLink || 'http://pbeu96c1d.bkt.clouddn.com/14.jpg');
+            collectionTitle.text(listData.attributes.collectionName);
+            let IDs = [];
+            for (let item of listData.attributes.songList) {
+                IDs.push(item);
+            }
+            let songs = await this.model.querySongs(IDs);
+            collectionList.find('li').remove();
+            for (let item of songs) {
+                let data = {
+                    songName: item.attributes.name,
+                    artist: item.attributes.artist,
+                    album: item.attributes.album,
+                    id: item.id
+                }
+                this.view.render(data);
             }
         })
     }
 
-    
+
 }
 
 controller.init(view, model);

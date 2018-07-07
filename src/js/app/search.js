@@ -26,29 +26,6 @@ let view = {
 }
 
 let model = {
-//    async queryData(string) {
-//        console.log(string)
-//        var query = new AV.SearchQuery('SongList');
-//        query.queryString(`name:${string} artist:${string} album:${string}`);
-//        return await query.find().then(function(results) {
-//            console.log(results)
-//            return results;
-//        });
-//    }
-//    async queryData(string) {
-//        console.log(string)
-//        var query1 = new AV.Query('SongList');
-//        var query2 = new AV.Query('SongList');
-//        var query3 = new AV.Query('SongList');
-//        query1.contains('name', string);
-//        query2.contains('artist', string);
-//        query3.contains('album', string);
-//        let query = new AV.Query.or(query1, query2, query3);
-//        return await query.find().then(function(results) {
-//            console.log(results)
-//            return results;
-//        });
-//    }
     async queryData(string) {
         let regExp = new RegExp(string, "i");
         let query1 = new AV.Query('SongList');
