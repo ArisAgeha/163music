@@ -93,6 +93,7 @@ let controller = {
             let result = await this.model.queryData(value);
             if (!value) return;
             console.log(result);
+            $el.find('ol > li').remove();
             for (let item of result) {
                 let data = {
                     id: item.id,
