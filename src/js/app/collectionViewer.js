@@ -51,6 +51,7 @@ let controller = {
 
     bindEvent() {
         this.watchShowCollectionList();
+        this.watchPlaySong();
     },
 
     watchShowCollectionList() {
@@ -79,8 +80,23 @@ let controller = {
                 this.view.render(data);
             }
         })
-    }
+    },
 
+    watchPlaySong() {
+        $(this.view.el).find('ol').on('click', 'li', (e) => {
+            let songID = e.currentTarget.id;
+            eventHub.emit('playSong', {songID: songID});
+        });
+
+        $(this.view.el).find('.playAllButton, .playAllText').on('click', () => {
+            let data = [];
+            let $songs = $(this.view.el).find('ol > li');
+            for (let item of $songs) {
+                data.push(item.id);
+            }
+            eventHub.emit('playAllSongs', data);
+        });
+    }
 
 }
 

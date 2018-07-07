@@ -590,7 +590,10 @@ footer {
                 height: 55px;
 
                 .songName {
-                    font-size: 16px;
+                    font-size: 15px;
+                    overflow: hidden;
+                    white-space:nowrap;
+                    text-overflow:ellipsis;
                 }
 
                 .information {
