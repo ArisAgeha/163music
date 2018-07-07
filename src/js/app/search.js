@@ -74,6 +74,7 @@ let controller = {
 
     bindEvent() {
         this.watchSearch();
+        this.watchPlaySong();
     },
 
     async watchSearch() {
@@ -103,8 +104,14 @@ let controller = {
                 }
                 this.view.render(data);
             }
-
         }
+    },
+
+    watchPlaySong() {
+        $(this.view.el).find('.search-wrapper').on('click', 'li', (e) => {
+            let songID = e.currentTarget.id;
+            eventHub.emit('playSong', {songID: songID});
+        })
     }
 
 }
