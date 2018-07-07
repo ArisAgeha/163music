@@ -21,23 +21,23 @@ let view = {
                                     .replace('__album__', data.album);
         let item = $(itemString);
         item.prop('id', data.id);
-        searchWrapper.append(item);
+        // searchWrapper.append(item);
     }
 }
 
 let model = {
-    async queryCollectionList(id) {
+    async querySong(id) {
         let query = new AV.Query('CollectionList');
         return await query.get(id).then(async (list) => {
-
+            return list;
         })
     }
 }
 
 let controller = {
-    init() {
-        this.view = view,
-        this.model = model
+    init(view, model) {
+        this.view = view;
+        this.model = model;
         this.bindEvent();
     },
 
@@ -46,8 +46,17 @@ let controller = {
     },
 
     watchShowCollectionList() {
-        eventHub.on('showCollectionList', async function(data) {
-            let collectionList = await this.model.queryCollectionList(data.id);
+        eventHub.on('showCollectionList', async (data) => {
+            let $el = $(this.view.el);
+            let coverImg = $el.find('.collectionTheme > .cover > img');
+            let collectionTitle = $el.find('.collectionTheme > .collectionTitle');
+            let collectionList = $el.find('.collectionList .songList');
+            let songData = await this.model.querySong(data.id);
+            coverImg.prop("src", songData.attributes.coverLink || 'http://pbeu96c1d.bkt.clouddn.com/14.jpg');
+            console.log(coverImg)
+            for (let item of songData){
+
+            }
         })
     }
 
