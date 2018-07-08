@@ -90,7 +90,6 @@ let controller = {
             eventHub.emit('playSong', {songID: songID});
         })
     }
-
 }
 
 controller.init();

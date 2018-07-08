@@ -329,10 +329,13 @@ main {
                 flex-direction: column;
                 border-bottom: 1px solid #e6e9f0;
                 justify-content: center;
-                height: 45px;
+                height: 55px;
 
                 .songName {
-                    font-size: 16px;
+                    font-size: 15px;
+                    overflow: hidden;
+                    white-space:nowrap;
+                    text-overflow:ellipsis;
                 }
 
                 .information {
@@ -359,7 +362,7 @@ footer {
         margin-right: 10px;
         height: 55px;
 
-        .songInformation {
+        .songDetail {
             height: 45px;
             width: 80%;
             display: flex;
@@ -431,7 +434,6 @@ footer {
         }
 
         .toplaylist {
-            padding: 0 10px;
             max-height: 66%;
             min-height: 100px;
             background-color: white;
@@ -445,6 +447,7 @@ footer {
                 justify-content: space-between;
                 border-bottom: 1px solid #e6e9f0;
                 font-size: 16px;
+                padding: 0 10px;
 
                 .playingHint {
                     display: none;
@@ -782,7 +785,7 @@ footer {
                 height: 3px;
                 background-color: rgb(156,39,176);
                 position: absolute;
-                width: 40%;
+                width: 0%;
             }
             .currentBar::before,
             .currentBar::after{

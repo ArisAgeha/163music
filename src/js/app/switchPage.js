@@ -78,7 +78,7 @@ function watchToplaylistMenu() {
 }
 
 function watchPlayControllerMenu() {
-    $('footer .songInformation').on('click', () => {
+    $('footer .songDetail').on('click', () => {
         $('.playController').addClass('show');
     })
 }
