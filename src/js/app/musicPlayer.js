@@ -34,22 +34,26 @@ let view = {
         let $el = $(this.el);
         let songDetail = $el.find('.songDetail');
         let mp3Wrapper = $el.find('.mp3Wrapper');
+        let audio = $('<audio>').prop('src', currentSongData.link).prop('autoplay', 'true');
+        let playController = $el.find('.playController');
+
         songDetail.find('.cover').css('background-image', currentSongData.cover);
         songDetail.find('.songInformation-text .songName').text(currentSongData.name).siblings().text(currentSongData.artist);
-        let audio = $('<audio>').prop('src', currentSongData.link).prop('autoplay', 'true');
         mp3Wrapper.children().remove();
         mp3Wrapper.append(audio);
         $el.find('.playButton').removeClass('show');
         $el.find('.pauseButton').addClass('show');
-        $(this.el).find('audio').load(() => {
-            console.log(1)
-        })
+
+        playController.find('.cover').prop('src', currentSongData.cover);
+        playController.find('.songInformation .songName').text(currentSongData.name).siblings().text(currentSongData.artist);
+        playController.find('.disc').addClass('playing');
+        playController.find('.play').removeClass('show').siblings().addClass('show');
+
     },
 
     activeSong(prevOrder, currentOrder) {
         if (prevOrder === currentOrder) return;
         let item = $(this.el).find('.toplaylistWrapper .toplaylist li')
-        console.log(item)
         if (item.eq(prevOrder)) item.eq(prevOrder).removeClass('playing');
         if (item.eq(currentOrder)) item.eq(currentOrder).addClass('playing');
     }
@@ -90,11 +94,12 @@ let controller = {
     },
 
     bindEvent() {
-        this.watchPlaySong();
-        this.watchMusicOnload();
+        this.watchEmitSong();
+        this.watchToggle();
+        this.watchSwitchSong();
     },
     
-    async watchPlaySong() {
+    async watchEmitSong() {
         await eventHub.on('playSong', async (data) => {
             if (this.model.toplayList[this.model.playOrder]) {
                 if (this.model.toplayList[this.model.playOrder].id === data.songID) return;
@@ -102,14 +107,55 @@ let controller = {
             let songData = await this.model.getSongData(data.songID);
             this.model.toplayList.splice(this.model.playOrder + 1, 0, songData);
             this.view.addSong(songData);
-            this.view.activeSong(this.model.playOrder, this.model.playOrder + 1);
-            this.model.playOrder++;
-            this.view.renderMusicPlayer(this.model.toplayList[this.model.playOrder]);
+            this.playTargetSong(this.model.playOrder + 1);
+
+            // this.view.activeSong(this.model.playOrder, this.model.playOrder + 1);
+            // this.model.playOrder++;
+            // this.view.renderMusicPlayer(this.model.toplayList[this.model.playOrder]);
         })
     },
 
-    watchMusicOnload() {
-    }
+    watchToggle() {
+        let $el = $(this.view.el);
+        $el.find('.playButton, .play').on('click touch', (e) => {
+            $el.find('audio').get(0).play();
+            $('.playButton, .play').removeClass('show').siblings().addClass('show');
+        })
+        $el.find('.pauseButton, .pause').on('click touch', (e) => {
+            $el.find('audio').get(0).pause();
+            $('.pauseButton, .pause').removeClass('show').siblings().addClass('show');
+        })
+    },
+
+    watchSwitchSong() {
+        let $el = $(this.view.el);
+        $el.find('.prevSong').on('click touch', (e) => {
+            let prevOrder = this.model.playOrder;
+            this.playTargetSong(prevOrder - 1);
+        });
+        $el.find('.nextSong').on('click touch', (e) => {
+            let prevOrder = this.model.playOrder;
+            this.playTargetSong(prevOrder + 1);
+        });
+        $el.find('.toplaylistWrapper .toplaylist').on('click touch', 'li', (e) => {
+            let order = $(e.currentTarget).index(); // 测试
+            this.playTargetSong(order);
+        })
+    },
+
+    async playTargetSong(currentOrder) {
+        if (currentOrder === -1) currentOrder = this.model.toplayList.length - 1;
+        if (currentOrder === this.model.toplayList.length) currentOrder = 0;
+        this.view.activeSong(this.model.playOrder, currentOrder);
+        this.model.playOrder = currentOrder;
+        this.view.renderMusicPlayer(this.model.toplayList[this.model.playOrder]);
+        
+        let mp3Wrapper = $(this.view.el).find('.mp3Wrapper');
+        mp3Wrapper.find('audio').bind('ended', (e) => {
+            let prevOrder = this.model.playOrder;
+            this.playTargetSong(prevOrder + 1);
+        })
+    },
 }
 
 controller.init(view, model);

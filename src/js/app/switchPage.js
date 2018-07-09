@@ -68,7 +68,7 @@ function watchTabs() {
 }
 
 function watchToplaylistMenu() {
-    $('footer').find('.toplaylistButton').on('click', () => {
+    $('footer').find('.toplaylistButton, .listMenu').on('click', () => {
         $('footer .toplaylistWrapper').addClass('show');
     })
 

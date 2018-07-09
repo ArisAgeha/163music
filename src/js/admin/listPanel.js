@@ -10,7 +10,6 @@ let dataHub = require('./dataHub.js');
 
         render(collectionElement) {
             collectionElement.addClass('active').siblings().removeClass('active');
-            console.error(collectionElement.text())
             eventHub.emit('switchCollection', collectionElement.text());
             dataHub.set('currentList', collectionElement.text());
         },
