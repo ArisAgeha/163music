@@ -23,11 +23,15 @@ let view = {
         </span>
     </li>`,
 
-    addSong(data) {
+    addSong(data, playOrder) {
         let $el = $(this.el);
         let li = this.template.replace('__songName__', data.name).replace('__artist__', data.artist);
         let $li = $(li);
-        $(this.el).find('.toplaylistWrapper .toplaylist').append(li);
+        if (playOrder === -1) {
+            $(this.el).find('.toplaylistWrapper .toplaylist').append(li);
+        } else {
+            $(this.el).find('.toplaylistWrapper .toplaylist li').eq(playOrder).after(li);
+        }
     },
     
     renderMusicPlayer(currentSongData) {
@@ -98,6 +102,7 @@ let controller = {
         this.watchToggle();
         this.watchSwitchSong();
         this.watchRemoveButton();
+        this.watchProgressBar();
     },
     
     async watchEmitSong() {
@@ -107,7 +112,7 @@ let controller = {
             }
             let songData = await this.model.getSongData(data.songID);
             this.model.toplayList.splice(this.model.playOrder + 1, 0, songData);
-            this.view.addSong(songData);
+            this.view.addSong(songData, this.model.playOrder);
             this.playTargetSong(this.model.playOrder + 1);
 
             // this.view.activeSong(this.model.playOrder, this.model.playOrder + 1);
@@ -145,6 +150,7 @@ let controller = {
     },
 
     async playTargetSong(currentOrder) {
+        if (this.model.toplayList.length === 0) return;
         if (currentOrder === -1) currentOrder = this.model.toplayList.length - 1;
         if (currentOrder === this.model.toplayList.length) currentOrder = 0;
         this.view.activeSong(this.model.playOrder, currentOrder);
@@ -167,14 +173,35 @@ let controller = {
             let currentOrder = this.model.playOrder;
             this.model.toplayList.splice(targetOrder, 1);
             li.remove();
-            console.log(targetOrder);
-            console.log(currentOrder);
             if (targetOrder < currentOrder) {
+                this.model.playOrder--;
+            } else if (this.model.toplayList.length === 0) {
+                console.log(21)
                 this.model.playOrder--;
             } else if (targetOrder === currentOrder){
                 this.playTargetSong(targetOrder);
             }
         })
+    },
+
+    watchProgressBar() {
+        let $el = $(this.view.el);
+        let totalBar = $el.find('.totalBar');
+        let progressBar = $el.find('.currentBar');
+        let mp3Wrapper = $el.find('.mp3Wrapper');
+        
+        setInterval(() => {
+            let audio = mp3Wrapper.find('audio').get(0);
+            let progress = audio.currentTime / audio.duration;
+            let percent = (progress * 100).toFixed(2) + '%';
+            progressBar.css('width', percent);
+        }, 750)
+
+        console.log(totalBar.get(0))
+        totalBar.get(0).addEventListener('click', (e) => {
+            console.log('t----')
+            console.log(e)
+        }, true);
     }
 }
 
