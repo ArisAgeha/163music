@@ -126,10 +126,14 @@ let controller = {
         $el.find('.playButton, .play').on('click touch', (e) => {
             $el.find('audio').get(0).play();
             $('.playButton, .play').removeClass('show').siblings().addClass('show');
+            // $el.find('.disc').addClass('.playing');
+            $el.find('.disc').css('animation-play-state', 'running');
         });
         $el.find('.pauseButton, .pause').on('click touch', (e) => {
             $el.find('audio').get(0).pause();
             $('.pauseButton, .pause').removeClass('show').siblings().addClass('show');
+            // $el.find('.disc').removeClass('playing');
+            $el.find('.disc').css('animation-play-state', 'paused');
         });
     },
 
