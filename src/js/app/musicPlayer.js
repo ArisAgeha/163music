@@ -197,11 +197,17 @@ let controller = {
             progressBar.css('width', percent);
         }, 750)
 
-        console.log(totalBar.get(0))
-        totalBar.get(0).addEventListener('click', (e) => {
-            console.log('t----')
-            console.log(e)
-        }, true);
+        totalBar.on('click', (e) => {
+            let audio = mp3Wrapper.find('audio').get(0);
+            let width = totalBar.outerWidth();
+            let x = e.offsetX;
+            console.log(x)
+            let progress = x / width;
+            console.log(progress)
+            let percent = (progress * 100).toFixed(2) + '%';
+            progressBar.css('width', percent);
+            audio.currentTime = audio.duration * progress
+        });
     }
 }
 
