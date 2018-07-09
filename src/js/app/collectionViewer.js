@@ -58,12 +58,16 @@ let controller = {
         eventHub.on('showCollectionList', async (data) => {
             let $el = $(this.view.el);
             let coverImg = $el.find('.collectionTheme > .cover > img');
+            let bgCover = $el.find('.collectionTheme .background');
             let collectionTitle = $el.find('.collectionTheme > .collectionTitle');
             let collectionList = $el.find('.collectionList .songList');
-
             let listData = await this.model.queryListData(data.id);
-            coverImg.prop("src", listData.attributes.coverLink || 'http://pbeu96c1d.bkt.clouddn.com/14.jpg');
+            listData.attributes.coverLink = listData.attributes.coverLink || 'http://pbeu96c1d.bkt.clouddn.com/14.jpg'
+
+            coverImg.prop("src", listData.attributes.coverLink);
+            bgCover.css('background-image', `url("${listData.attributes.coverLink}")` || "url('http://pbeu96c1d.bkt.clouddn.com/14.jpg')");
             collectionTitle.text(listData.attributes.collectionName);
+
             let IDs = [];
             for (let item of listData.attributes.songList) {
                 IDs.push(item);

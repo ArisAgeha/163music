@@ -34,25 +34,25 @@ let view = {
         let $el = $(this.el);
         let songDetail = $el.find('.songDetail');
         let mp3Wrapper = $el.find('.mp3Wrapper');
-        let audio = $('<audio>').prop('src', currentSongData.link).prop('autoplay', 'true');
+        let audio = $('<audio>').prop('src', currentSongData.link);
         let playController = $el.find('.playController');
 
-        songDetail.find('.cover').css('background-image', currentSongData.cover);
+        songDetail.find('.cover').css('background-image', `url('${currentSongData.cover}')`);
         songDetail.find('.songInformation-text .songName').text(currentSongData.name).siblings().text(currentSongData.artist);
         mp3Wrapper.children().remove();
         mp3Wrapper.append(audio);
         $el.find('.playButton').removeClass('show');
         $el.find('.pauseButton').addClass('show');
+        mp3Wrapper.find('audio').get(0).play();
 
+        playController.find('.background').css('background-image', `url("${currentSongData.cover}")`);
         playController.find('.cover').prop('src', currentSongData.cover);
         playController.find('.songInformation .songName').text(currentSongData.name).siblings().text(currentSongData.artist);
         playController.find('.disc').addClass('playing');
         playController.find('.play').removeClass('show').siblings().addClass('show');
-
     },
 
     activeSong(prevOrder, currentOrder) {
-        if (prevOrder === currentOrder) return;
         let item = $(this.el).find('.toplaylistWrapper .toplaylist li')
         if (item.eq(prevOrder)) item.eq(prevOrder).removeClass('playing');
         if (item.eq(currentOrder)) item.eq(currentOrder).addClass('playing');
@@ -97,6 +97,7 @@ let controller = {
         this.watchEmitSong();
         this.watchToggle();
         this.watchSwitchSong();
+        this.watchRemoveButton();
     },
     
     async watchEmitSong() {
@@ -120,11 +121,11 @@ let controller = {
         $el.find('.playButton, .play').on('click touch', (e) => {
             $el.find('audio').get(0).play();
             $('.playButton, .play').removeClass('show').siblings().addClass('show');
-        })
+        });
         $el.find('.pauseButton, .pause').on('click touch', (e) => {
             $el.find('audio').get(0).pause();
             $('.pauseButton, .pause').removeClass('show').siblings().addClass('show');
-        })
+        });
     },
 
     watchSwitchSong() {
@@ -149,13 +150,32 @@ let controller = {
         this.view.activeSong(this.model.playOrder, currentOrder);
         this.model.playOrder = currentOrder;
         this.view.renderMusicPlayer(this.model.toplayList[this.model.playOrder]);
-        
+
         let mp3Wrapper = $(this.view.el).find('.mp3Wrapper');
         mp3Wrapper.find('audio').bind('ended', (e) => {
             let prevOrder = this.model.playOrder;
             this.playTargetSong(prevOrder + 1);
         })
     },
+
+    watchRemoveButton() {
+        let $el = $(this.view.el);
+        $el.find('.toplaylistWrapper .toplaylist').on('click touch', '.toplay-deleteButton', (e) => {
+            e.stopPropagation();
+            let li = $(e.currentTarget).parent();
+            let targetOrder = li.index();
+            let currentOrder = this.model.playOrder;
+            this.model.toplayList.splice(targetOrder, 1);
+            li.remove();
+            console.log(targetOrder);
+            console.log(currentOrder);
+            if (targetOrder < currentOrder) {
+                this.model.playOrder--;
+            } else if (targetOrder === currentOrder){
+                this.playTargetSong(targetOrder);
+            }
+        })
+    }
 }
 
 controller.init(view, model);

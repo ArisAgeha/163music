@@ -5,7 +5,6 @@ watchPlayControllerMenu();
 watchReturnButton();
 
 $('body')[0].addEventListener('touchmove', (e)=>{
-    e.preventDefault()
 },{passive:true});
 
 function watchTabs() {

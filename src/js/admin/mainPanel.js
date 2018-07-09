@@ -167,7 +167,7 @@ let dataHub = require('./dataHub.js');
                     .replace('__name__', data.name)
                     .replace('__artist__', data.artist)
                     .replace('__size__', data.size)
-                    .replace('__cover__', undefined)
+                    .replace('__cover__', 'http://pbeu96c1d.bkt.clouddn.com/14.jpg')
                     .replace('__saveStatus__', data.saveStatus);
                 let tr = $(trString);
                 tr.addClass('uploading');

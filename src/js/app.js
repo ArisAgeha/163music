@@ -1,3 +1,5 @@
+let VConsole = require('vconsole');
+let vConsole = new VConsole();
 require('../css/app.scss');
 require('./app/switchPage.js');
 require('./app/discovery.js');

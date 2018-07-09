@@ -373,6 +373,9 @@ footer {
                 min-width: 40px;
                 background-color: #ddd;
                 margin-right: 10px;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: 100%;
             }
 
             .songInformation-text {
@@ -474,6 +477,10 @@ footer {
 
                 .playingHint {
                     display: none;
+                }
+
+                .toplay-songName {
+                    font-size: 14px;
                 }
 
                 .split, .toplay-artist{
@@ -589,6 +596,7 @@ footer {
         padding: 0 15px;
         z-index:1;
         flex:1;
+        overflow: auto;
 
         .playAllWrapper {
             display: flex;
@@ -852,7 +860,7 @@ footer {
             .toggle > svg {
                 display: none;
             }
-            .toggle> svg.show {
+            .toggle > svg.show {
                 display: inline;
             }
         }
