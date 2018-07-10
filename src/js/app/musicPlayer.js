@@ -82,6 +82,7 @@ let model = {
     init() {
         this.toplayList = [];
         this.playOrder = -1;
+        this.csID = '';
     }, 
 
     async getSongData(songID) {
@@ -234,14 +235,14 @@ let controller = {
         let cb = $el.find('.playController .controlPanel .addToCollection');
         cb.on('click', () => {
             let currentSongData = this.model.toplayList[this.model.playOrder];
-            console.log(currentSongData);
+            if (!currentSongData) return;
+            this.model.csID = currentSongData.id;
             let userListData = dataHub.get('userData');
-            this.showAddToCollectPanel(currentSongData, userListData);
-            
+            this.showAddToCollectPanel(userListData);
         })
     },
 
-    showAddToCollectPanel(currentSongData, userListData) {
+    showAddToCollectPanel(userListData) {
         for (let item in userListData) {
             data = {
                 id: item,
@@ -255,7 +256,7 @@ let controller = {
 
     watchAddToCollectPanel() {
         this.watchSwitchPage();
-        console.log(11111111)
+        this.watchAdd();
         this.watchSubmit();
     },
 
@@ -282,11 +283,27 @@ let controller = {
         let $el = $(this.view.el);
         let menu = $el.find('.newUserListPanel .userListWrapper');
         let hint = menu.find('.errorHint');
-        console.log('-----')
-        console.log(menu.find('hint'))
         menu.find('.submitButton').on('click', (e) => {
             let collectionName = $el.find('input').val()
-            if (!collectionName) hint.text('请输入歌单名！');
+            if (!collectionName) {
+                hint.text('请输入歌单名！');   
+            } else if (collectionName.length > 24) {
+                hint.text('歌单名字不能超过24个字符！');       
+            } else {
+                eventHub.emit('addUserList', {songID: this.model.csID, collectionName: collectionName});
+                $el.find('.newUserListPanel').removeClass('show');
+                $el.find('.addToCollectionPanel').removeClass('show');
+            }
+        })
+    },
+
+    watchAdd() {
+        let $el = $(this.view.el);
+        let menu = $el.find('.addToCollectionPanel');
+        menu.find('.userList').on('click', 'li:gt(0)', (e) => {
+            let id = $(e.currentTarget).prop('id');
+            let songID = this.model.csID;
+            eventHub.emit('addSongToList', {songID: songID, listID: id});
         })
     }
 }
