@@ -17,8 +17,8 @@ let controller = {
         this.view = view;
         this.model = model;
         this.model.init();
-        this.bindEvent();
         this.findCurrentUser();
+        this.bindEvent();
     },
 
     bindEvent() {
@@ -49,7 +49,17 @@ let controller = {
 
     async signupUser(username, password) {
         let user = new AV.User();
-        return await user.signUp({username: username, password: password}).then((data) => {
+        return await user.signUp({username: username, password: password}).then(async (data) => {
+            let Collection = AV.Object.extend('UserList');
+            let collection = new Collection();
+            await collection.save({
+                'UserID': data.id,
+                'collectionName': '我喜欢的音乐',
+                'songList': [],
+                'coverLink': 'http://pbeu96c1d.bkt.clouddn.com/010.png'
+            }).then(function(object) {
+                return object.id
+            })
             return data;
         }, (err) => {
             return err.code;
@@ -96,7 +106,7 @@ let controller = {
     },
 
     showUserPanel() {
-        console.log(AV.User.current());
+        eventHub.emit('isLogin');
         $(this.view.el).removeClass('show').siblings().addClass('show');
     }
 }

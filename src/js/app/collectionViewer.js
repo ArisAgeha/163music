@@ -61,7 +61,12 @@ let controller = {
             let bgCover = $el.find('.collectionTheme .background');
             let collectionTitle = $el.find('.collectionTheme > .collectionTitle');
             let collectionList = $el.find('.collectionList .songList');
-            let listData = await this.model.queryListData(data.id);
+            let listData;
+            if (!data.userID) {
+                listData = await this.model.queryListData(data.id);
+            } else {
+                listData = data;
+            }
             listData.attributes.coverLink = listData.attributes.coverLink || 'http://pbeu96c1d.bkt.clouddn.com/14.jpg'
 
             coverImg.prop("src", listData.attributes.coverLink);
