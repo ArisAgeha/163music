@@ -659,6 +659,83 @@ footer {
     bottom: 0;
     z-index: 2;
 
+    .addToCollectionPanel {
+        display: none;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 4;
+        flex-direction: column;
+        background-color: rgba(0,0,0,0.6);
+        align-items: center;
+        justify-content: center;
+
+        .userListWrapper {
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            overflow: auto;
+            padding: 15px 10px;
+            max-height: 60%;
+
+            .userList-title {
+                font-size: 15px;
+                min-height: 50px;
+                display: flex;
+                align-items: center;
+                border-bottom: 1px solid rgba(230, 233, 240, 0.1);
+            }
+
+            .userList {
+                li {
+                    display: flex;
+                    align-items: center;
+                    height: 50px;
+                    border-bottom: 1px solid rgba(230, 233, 240, 0.1);
+
+                    .cover {
+                        width: 35px; 
+                        height: 35px;
+                        min-width: 35px;
+                        margin-right: 10px;
+                        display: flex;
+                        align-items: center;
+                        position: relative;
+                        overflow: hidden;
+
+                        img {
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            height: 100%;
+                            min-width: 100%;
+                            position: absolute;
+                            right: 0;
+                        }
+                    }
+
+                    .collectionTitle {
+                        overflow: hidden;
+                        white-space:nowrap;
+                        text-overflow:ellipsis;
+                        max-width: 70%;
+                    }
+                }
+                li:active {
+                    background-color: #ddd;
+                    transition-duration: 0.2s;
+                }
+            }
+        }
+
+    }
+
+    .addToCollectionPanel.show {
+        display: flex;
+    }
+
     .background {
         background-image: url("../img/1.png");
         background-position: 50%;

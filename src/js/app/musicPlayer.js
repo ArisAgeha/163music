@@ -1,6 +1,7 @@
 let $ = require('jquery');
 let AV = require('./app-leancloud.js');
 let eventHub = require('./eventHub.js');
+let dataHub = require('./dataHub.js');
 
 let view = {
     el: 'footer',
@@ -103,6 +104,7 @@ let controller = {
         this.watchSwitchSong();
         this.watchRemoveButton();
         this.watchProgressBar();
+        this.watchCollectSong();
     },
     
     async watchEmitSong() {
@@ -210,6 +212,22 @@ let controller = {
             progressBar.css('width', percent);
             audio.currentTime = audio.duration * progress
         });
+    },
+
+    watchCollectSong() {
+        let $el = $(this.view.el);
+        let cb = $el.find('.playController .controlPanel .addToCollection');
+        cb.on('click', () => {
+            let currentSongData = this.model.toplayList[this.model.playOrder];
+            console.log(currentSongData);
+            let userListData = dataHub.get('userData');
+            this.showAddToCollectPanel(currentSongData, userListData);
+            
+        })
+    },
+
+    showAddToCollectPanel(currentSongData, userListData) {
+        
     }
 }
 

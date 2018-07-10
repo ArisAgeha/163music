@@ -6,7 +6,7 @@ module.exports = {
     emit(eventType, data) {
         if (this.events[eventType]) {
             this.events[eventType].map((fn) => {
-                fn.call(undefined, data);
+                return fn.call(undefined, data);
             })
         }
     },

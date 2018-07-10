@@ -1,6 +1,7 @@
 let AV = require('./app-leancloud.js');
 let $ = require('jquery');
 let eventHub = require('./eventHub.js');
+let dataHub = require('./dataHub.js');
 
 let view = {
     el: '.userPanel',
@@ -31,6 +32,7 @@ let view = {
 let model = {
     init() {
         this.userData = {};
+        dataHub.set('userData', this.userData)
     },
 
     async queryInitData() {
@@ -49,6 +51,16 @@ let model = {
             'collectionName': data.collectionName,
             'songList': data.songList,
             'coverLink': data.coverLink
+        }).then(function(object) {
+            return object.id
+        })
+    },
+
+    async modifyUserListData(data) {
+        let Collection = AV.Object.extend('UserList');
+        let collection = new Collection();
+        return await collection.save({
+            'songList': data.songList,
         }).then(function(object) {
             return object.id
         })
@@ -74,19 +86,18 @@ let controller = {
         await this.initUser();
         this.watchShowCollectionList();
         this.watchAddUserList();
+        this.watchAddSongToList();
     },
 
     async initUser() {
         await eventHub.on('isLogin', async () => {
             $(this.view.el).find('.myCollection').children().remove();
             let data = await this.model.queryInitData();
-            console.log(data);
             for (let userListData of data) {
                 let localData = {
                     ...userListData.attributes,
                 }
                 this.model.userData[userListData.id] = localData;
-                console.log(this.model.userData);
                 this.view.render(localData, userListData.id);
             }
         })
@@ -94,6 +105,7 @@ let controller = {
     },
 
     watchShowCollectionList() {
+        console.log(this.model.userData);
         $(this.view.el).find('.myCollection').on('click', 'li', (e) => {
             let id = $(e.currentTarget).prop('id');
             eventHub.emit('showCollectionList', {id: id, user: true});
@@ -116,6 +128,15 @@ let controller = {
             }
             let newListID = await this.model.addUserListData(extractedData);
             eventHub.emit('isLogin');
+        })
+    },
+
+    watchAddSongToList() {
+        eventHub.on('addSongToList', async (data) => {
+            let songID = data.songID;
+            let targetListID = data.listID;
+            this.model.userData.targetListID.songList.push(songID);
+            await this.model.modifyUserListData(this.model.userData.targetListID);
         })
     }
 }
