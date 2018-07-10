@@ -180,7 +180,6 @@ let controller = {
             if (targetOrder < currentOrder) {
                 this.model.playOrder--;
             } else if (this.model.toplayList.length === 0) {
-                console.log(21)
                 this.model.playOrder--;
             } else if (targetOrder === currentOrder){
                 this.playTargetSong(targetOrder);
@@ -196,6 +195,7 @@ let controller = {
         
         setInterval(() => {
             let audio = mp3Wrapper.find('audio').get(0);
+            if (!audio) return;
             let progress = audio.currentTime / audio.duration;
             let percent = (progress * 100).toFixed(2) + '%';
             progressBar.css('width', percent);
@@ -205,9 +205,7 @@ let controller = {
             let audio = mp3Wrapper.find('audio').get(0);
             let width = totalBar.outerWidth();
             let x = e.offsetX;
-            console.log(x)
             let progress = x / width;
-            console.log(progress)
             let percent = (progress * 100).toFixed(2) + '%';
             progressBar.css('width', percent);
             audio.currentTime = audio.duration * progress
