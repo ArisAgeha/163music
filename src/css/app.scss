@@ -254,7 +254,7 @@ main {
                     .cover {
                         width: 45px; 
                         height: 45px;
-                        margin-right: 5px;
+                        margin-right: 10px;
                         display: flex;
                         align-items: center;
                         position: relative;
@@ -269,9 +269,14 @@ main {
                             right: 0;
                         }
                     }
+
+                    .collectionTitle {
+                        font-size: 15px;
+                    }
                 }
 
                 .deleteCollection {
+                    color: rgb(128, 128, 128);
                     font-size: 16px;
                 }
             }

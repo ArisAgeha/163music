@@ -33,6 +33,13 @@ let model = {
         })
     },
 
+    async queryUserListData(id) {
+        let query = new AV.Query('UserList');
+        return await query.get(id).then(async (list) => {
+            return list;
+        })
+    },
+
     async querySongs(IDs) {
         let query = new AV.Query('SongList');
         query.containedIn('objectId', IDs);
@@ -62,10 +69,10 @@ let controller = {
             let collectionTitle = $el.find('.collectionTheme > .collectionTitle');
             let collectionList = $el.find('.collectionList .songList');
             let listData;
-            if (!data.userID) {
+            if (!data.user) {
                 listData = await this.model.queryListData(data.id);
             } else {
-                listData = data;
+                listData = await this.model.queryUserListData(data.id);
             }
             listData.attributes.coverLink = listData.attributes.coverLink || 'http://pbeu96c1d.bkt.clouddn.com/14.jpg'
 
@@ -88,6 +95,7 @@ let controller = {
                 }
                 this.view.render(data);
             }
+            $el.addClass('show');
         })
     },
 

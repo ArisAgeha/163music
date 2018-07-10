@@ -53,7 +53,7 @@ let controller = {
             let Collection = AV.Object.extend('UserList');
             let collection = new Collection();
             await collection.save({
-                'UserID': data.id,
+                'userID': data.id,
                 'collectionName': '我喜欢的音乐',
                 'songList': [],
                 'coverLink': 'http://pbeu96c1d.bkt.clouddn.com/010.png'

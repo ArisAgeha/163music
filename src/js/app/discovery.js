@@ -85,7 +85,6 @@ let controller = {
         let viewer = $('.collectionViewer');
         let collection = $(this.view.el).find('.recommandList .exhibition .item');
         collection.on('click touch', (e) => {
-            viewer.addClass('show');
             let id = e.currentTarget.id;
             eventHub.emit('showCollectionList', {id: id});
         })
