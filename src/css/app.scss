@@ -769,6 +769,11 @@ footer {
                 background-color: #fff;
             }
 
+            .errorHint {
+                height: 30px;
+                color: red;
+            }
+
             .submitButton {
                 color: rgb(156,39,176);
                 display: flex;
@@ -782,10 +787,6 @@ footer {
     .newUserListPanel.show {
         display: flex;
     }
-
-
-
-
 
     .addToCollectionPanel.show {
         display: flex;

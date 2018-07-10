@@ -23,6 +23,11 @@ let view = {
             </svg>
         </span>
     </li>`,
+    template2: `
+		<li class="createUserList">
+			<div class="cover"><img src="__coverLink__" alt=""></div>
+			<div class="collectionTitle">__collectionName__</div>
+		</li>`,
 
     addSong(data, playOrder) {
         let $el = $(this.el);
@@ -61,6 +66,15 @@ let view = {
         let item = $(this.el).find('.toplaylistWrapper .toplaylist li')
         if (item.eq(prevOrder)) item.eq(prevOrder).removeClass('playing');
         if (item.eq(currentOrder)) item.eq(currentOrder).addClass('playing');
+    },
+
+    renderAddToList(data) {
+        let $el = $(this.view.el);
+        let target = $el.find('.playController .addToCollectionPanel  .userList');
+        let li = this.template2.replace('__collectionName__', data.collectionName)
+                                .replace('__coverLink__', data.coverLink);
+        let $li = $(li).prop('id', data.id);
+        target.append($li)
     }
 }
 
@@ -105,6 +119,7 @@ let controller = {
         this.watchRemoveButton();
         this.watchProgressBar();
         this.watchCollectSong();
+        this.watchAddToCollectPanel();
     },
     
     async watchEmitSong() {
@@ -227,7 +242,52 @@ let controller = {
     },
 
     showAddToCollectPanel(currentSongData, userListData) {
-        
+        for (let item in userListData) {
+            data = {
+                id: item,
+                collectionName: userListData[item].collectionName,
+                coverLink: userListData[item].coverLink
+            }
+            this.view.renderAddToList(data);
+        }
+        $(this.view.el).find('.addToCollectionPanel').addClass('show');
+    },
+
+    watchAddToCollectPanel() {
+        this.watchSwitchPage();
+        console.log(11111111)
+        this.watchSubmit();
+    },
+
+    watchSwitchPage() {
+        let $el = $(this.view.el);
+        $el.find('.userListWrapper').on('click', (e) => {
+            e.stopPropagation();
+        })
+
+        $el.find('.addToCollectionPanel').on('click', (e) => {
+            $(e.currentTarget).removeClass('show');
+        })
+
+        $el.find('.createUserList').on('click', (e) => {
+            $el.find('.newUserListPanel').addClass('show');
+        })
+
+        $el.find('.newUserListPanel').on('click', (e) => {
+            $(e.currentTarget).removeClass('show');
+        })
+    },
+
+    watchSubmit() {
+        let $el = $(this.view.el);
+        let menu = $el.find('.newUserListPanel .userListWrapper');
+        let hint = menu.find('.errorHint');
+        console.log('-----')
+        console.log(menu.find('hint'))
+        menu.find('.submitButton').on('click', (e) => {
+            let collectionName = $el.find('input').val()
+            if (!collectionName) hint.text('请输入歌单名！');
+        })
     }
 }
 
