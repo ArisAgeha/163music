@@ -732,6 +732,61 @@ footer {
 
     }
 
+
+    .newUserListPanel {
+        display: none;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 4;
+        flex-direction: column;
+        background-color: rgba(0,0,0,0.6);
+        align-items: center;
+        justify-content: center;
+
+        .userListWrapper {
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 80%;
+            overflow: auto;
+            padding: 15px 15px;
+            height: 30%;
+
+            .userList-title {
+                font-size: 15px;
+                min-height: 30px;
+                display: flex;
+                align-items: center;
+            }
+
+            input {
+                font-size: 14px;
+                border-bottom: 1px solid #e6e9f0;
+                background-color: #fff;
+            }
+
+            .submitButton {
+                color: rgb(156,39,176);
+                display: flex;
+                justify-content: flex-end;
+                margin-right: 20px;
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+    .newUserListPanel.show {
+        display: flex;
+    }
+
+
+
+
+
     .addToCollectionPanel.show {
         display: flex;
     }
