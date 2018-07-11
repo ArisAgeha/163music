@@ -5,7 +5,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
 	entry: {
         app: './src/js/app.js',
-        admin: './src/js/admin.js'
+        admin: './src/js/admin.js',
+        picWall: './src/js/picWall.js'
     },
 	output: {
 		filename: 'dist/js/[name].js',
@@ -82,6 +83,12 @@ module.exports = {
             template: './src/admin.html', //html模板路径
             hash: true, //为静态资源生成hash值
             chunks: ['admin'],//需要引入的chunk，不配置就会引入所有页面的资源
+        }),
+        new HtmlWebpackPlugin({ //根据模板插入css/js等生成最终HTML
+            filename: './picWall.html', //生成的html存放路径，相对于path
+            template: './src/picWall.html', //html模板路径
+            hash: true, //为静态资源生成hash值
+            chunks: ['picWall'],//需要引入的chunk，不配置就会引入所有页面的资源
         })
     ]
 };

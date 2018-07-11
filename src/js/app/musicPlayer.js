@@ -69,7 +69,7 @@ let view = {
     },
 
     renderAddToList(data) {
-        let $el = $(this.view.el);
+        let $el = $(this.el);
         let target = $el.find('.playController .addToCollectionPanel  .userList');
         let li = this.template2.replace('__collectionName__', data.collectionName)
                                 .replace('__coverLink__', data.coverLink);
@@ -238,13 +238,15 @@ let controller = {
             if (!currentSongData) return;
             this.model.csID = currentSongData.id;
             let userListData = dataHub.get('userData');
+            if (userListData.length === 0) return;
             this.showAddToCollectPanel(userListData);
         })
     },
 
     showAddToCollectPanel(userListData) {
+        $(this.view.el).find('.addToCollectionPanel .userList li:gt(0)').remove();
         for (let item in userListData) {
-            data = {
+            let data = {
                 id: item,
                 collectionName: userListData[item].collectionName,
                 coverLink: userListData[item].coverLink
@@ -304,6 +306,7 @@ let controller = {
             let id = $(e.currentTarget).prop('id');
             let songID = this.model.csID;
             eventHub.emit('addSongToList', {songID: songID, listID: id});
+            $el.find('.addToCollectionPanel').removeClass('show');
         })
     }
 }

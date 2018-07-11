@@ -56,20 +56,27 @@ let model = {
         })
     },
 
-    async modifyUserListData(data) {
-        let Collection = AV.Object.extend('UserList');
-        let collection = new Collection();
-        return await collection.save({
-            'songList': data.songList,
+    async modifyUserListData(targetListID, data) {
+        let songData = AV.Object.createWithoutData('UserList', targetListID);
+        await songData.save({
+            'songList': data.songList
+            
         }).then(function(object) {
             return object.id
-        })
+        });
     },
 
     async getCoverLink(id) {
         let query = new AV.Query('SongList');
         return await query.get(id).then((list) => {
             return list.attributes.cover;
+        })
+    },
+
+    async destroyUserList(id) {
+        let list = AV.Object.createWithoutData('UserList', id);
+        return await list.destroy().then((data) => {
+            return data; 
         })
     }
 }
@@ -87,6 +94,7 @@ let controller = {
         this.watchShowCollectionList();
         this.watchAddUserList();
         this.watchAddSongToList();
+        this.watchDeleteCollection();
     },
 
     async initUser() {
@@ -105,7 +113,6 @@ let controller = {
     },
 
     watchShowCollectionList() {
-        console.log(this.model.userData);
         $(this.view.el).find('.myCollection').on('click', 'li', (e) => {
             let id = $(e.currentTarget).prop('id');
             eventHub.emit('showCollectionList', {id: id, user: true});
@@ -115,11 +122,10 @@ let controller = {
     watchAddUserList() {
         eventHub.on('addUserList', async (data) => {
             let songID = data.songID;
-            let songCoverLink = await this.model.getCoverLink();
-
+            let songCoverLink = await this.model.getCoverLink(songID);
             let collectionName = data.collectionName;
             let coverLink = 'undefined';
-            let userID = AV.User.current();
+            let userID = AV.User.current().id;
             let extractedData = {
                 collectionName: collectionName,
                 coverLink: songCoverLink,
@@ -135,8 +141,19 @@ let controller = {
         eventHub.on('addSongToList', async (data) => {
             let songID = data.songID;
             let targetListID = data.listID;
-            this.model.userData.targetListID.songList.push(songID);
-            await this.model.modifyUserListData(this.model.userData.targetListID);
+            this.model.userData[targetListID].songList.push(songID);
+            await this.model.modifyUserListData(targetListID, this.model.userData[targetListID]);
+        })
+    },
+
+    watchDeleteCollection() {
+        let $el = $(this.view.el);
+        let myCollection = $el.find('.myCollection');
+        myCollection.on('click', '.deleteCollection', async (e) => {
+            e.stopPropagation();
+            let id = $(e.currentTarget).parent().prop('id');
+            let res = await this.model.destroyUserList(id);
+            eventHub.emit('isLogin');
         })
     }
 }
