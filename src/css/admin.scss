@@ -77,7 +77,8 @@ main {
         display: flex;
         flex-direction: column;
 
-        .dupErrTips {
+        .dupErrTips,
+        .failTips{
             position: fixed;
             top: 0;
             left: 0;
@@ -94,7 +95,8 @@ main {
             font-size: 18px;
         }
 
-        .dupErrTips.show {
+        .dupErrTips.show,
+        .failTips.show{
             background-color: rgba(255,240,240,0.9);
             color: red;
         }
@@ -179,6 +181,110 @@ main {
             display: flex;
         }
 
+
+        .successTips {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(25, 137, 250, 0);
+            height: 60px;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: transparent;
+            pointer-events: none;
+            transition-duration: 2s;
+            font-size: 18px;
+        }
+
+        .successTips.show {
+            background-color: rgba(25, 137, 250, 0.2);
+            color: #1989fa;
+        }
+
+        .coverSetter-mask {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.6);
+            z-index: 3;
+            justify-content: center;
+            align-items: center;
+            transition-duration: 0.3s;
+            font-size: 16px;
+
+            .coverSetter {
+                width: 400px;
+                height: 280px;
+                background-color: white;
+                border-radius: 4px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                input {
+                    outline: none;
+                    border-radius: 4px;
+                    border: 1px solid rgb(204, 204, 204);
+                    padding: 0 15px;
+                    height: 30px;
+                    margin: 20px 0;
+                    width: 200px;
+                }
+
+                .textHolder2 {
+                    height: 30px;
+                    color: red;
+                    font-size: 14px;
+                }
+
+                .coverSetter-ctrl {
+                    width: 200px;
+                    display: flex;
+
+                    .cs-confirm,
+                    .cs-cancel {
+                        font-size: 12px;
+                        margin: 0 8px;
+                        padding: 0 7px;
+                        line-height: 34px;
+                        height: 34px;
+                        border: 1px solid rgba(94, 97, 102, 0.4);
+                        border-radius: 4px;
+                        transition-duration: 0.35s;
+                        cursor: pointer;
+                    }
+
+                    .cs-confirm {
+                        width: 50%;
+                        text-align: center;
+                        color: rgb(20, 218, 37);
+                        background-color: rgba(15, 245, 35, 0.06);
+                        border-color: rgb(20, 218, 37);
+                    }
+
+                    .cs-cancel {
+                        width: 50%;
+                        text-align: center;
+                        color: rgb(255,97,97);
+                        background-color: rgba(255,240,240,0.4);
+                        border-color: rgb(255,97,97);
+                    }
+                }
+            }
+        }
+
+        .coverSetter-mask.show {
+            display: flex;
+        }
+
+
         .listController {
             text-align: center;
             padding-top : 27px;
@@ -187,9 +293,10 @@ main {
             align-items: center;
             font-size: 12px;
             margin-right: -1px;
-            min-height: 125px;
+            min-height: 155px;
 
-            .createList {
+            .createList,
+            .setCover{
                 width: 160px;
                 height: 32px;
                 line-height: 32px;

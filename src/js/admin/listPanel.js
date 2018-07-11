@@ -28,6 +28,22 @@ let dataHub = require('./dataHub.js');
             setTimeout(()=> {
                 tips.removeClass('show');
             }, 3000)
+        },
+
+        throwFailTips() {
+            let tips = $(this.el).find('.failTips');
+            tips.addClass('show');
+            setTimeout(()=> {
+                tips.removeClass('show');
+            }, 3000)
+        },
+
+        throwSuccessTips() {
+            let tips = $(this.el).find('.successTips');
+            tips.addClass('show');
+            setTimeout(()=> {
+                tips.removeClass('show');
+            }, 3000)
         }
     }
 
@@ -81,6 +97,20 @@ let dataHub = require('./dataHub.js');
             }).then(function(object) {
                 return object.id
             })
+        },
+
+        async setCover(currentListName, text) {
+            let queryID = new AV.Query('CollectionList');
+            queryID.contains('collectionName', currentListName);
+            let id = await queryID.find().then(function(results) {
+                console.error(results)
+                return results[0].id;
+            });
+            console.log(currentListName);
+            console.log(queryID);
+            console.log(id)
+            let saveCover = AV.Object.createWithoutData('CollectionList', id);
+            await saveCover.save({'coverLink': text});
         }
     }
 
@@ -114,6 +144,7 @@ let dataHub = require('./dataHub.js');
             this.setSongID();
             this.removeSongID();
             this.watchSearch();
+            this.watchSetCover();
             console.log(this.setSongID)
         },
 
@@ -209,7 +240,37 @@ let dataHub = require('./dataHub.js');
                     }
                 }
             })
+        },
+
+        watchSetCover() {
+            let $el = $(this.view.el);
+            let coverSetter = $el.find('.mask2 .coverSetter-mask'); 
+            $el.find('.setCover').on('click', () => {
+                let currentList = dataHub.get('currentList');
+                if (currentList === '全部歌曲') {
+                    this.view.throwFailTips();       
+                    return;
+                }
+                coverSetter.addClass('show');
+                coverSetter.find('.textHolder2').text('');
+            })
+            $el.find('.cs-cancel').on('click', () => {
+                coverSetter.removeClass('show');
+            })
+            $el.find('.cs-confirm').on('click', async () => {
+                let text = coverSetter.find('input').val();
+                if (text === '') {
+                    coverSetter.find('.textHolder2').text('请输入链接！');
+                    return;
+                } else  {
+                    let currentList = dataHub.get('currentList');
+                    await this.model.setCover(currentList, text);
+                    coverSetter.removeClass('show');
+                    this.view.throwSuccessTips();
+                }
+            })
         }
+
     }
     controller.init(view, model);
     console.error('ListBanelEnd!');
