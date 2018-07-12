@@ -15,7 +15,6 @@ let view = {
     render(targetName, data) {
         let item = this.template.replace("__src__", data.src).replace("__itemName__", data.itemName);
         let $item = $(item).prop("id", data.id);
-        console.log(data.src);
         $(targetName).append($item);
     }
 }
@@ -62,7 +61,6 @@ let controller = {
                 itemName: item.attributes.collectionName
             }
             if (item.attributes.coverLink === 'undefined' || !item.attributes.coverLink) data.src = 'http://pbeu96c1d.bkt.clouddn.com/2.jpg';
-            console.log(item.attributes.cover);
             this.view.render(target, data);
         }
         for (let item of this.model.lastestSong) {
@@ -73,7 +71,6 @@ let controller = {
                 itemName: item.attributes.name
             }
             if (item.attributes.cover === 'undefined') data.src = 'http://pbeu96c1d.bkt.clouddn.com/14.jpg';  
-            console.log(item.attributes.cover);
             this.view.render(target, data);
         }
     },

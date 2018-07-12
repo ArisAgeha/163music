@@ -78,6 +78,10 @@ let model = {
         return await list.destroy().then((data) => {
             return data; 
         })
+    },
+
+    async logout() {
+        let result = await AV.User.logOut();
     }
 }
 
@@ -95,6 +99,7 @@ let controller = {
         this.watchAddUserList();
         this.watchAddSongToList();
         this.watchDeleteCollection();
+        this.watchLogout();
     },
 
     async initUser() {
@@ -154,6 +159,14 @@ let controller = {
             let id = $(e.currentTarget).parent().prop('id');
             let res = await this.model.destroyUserList(id);
             eventHub.emit('isLogin');
+        })
+    },
+
+    watchLogout() {
+        let $el = $(this.view.el);
+        $el.find('.logoutButton').on('click', async (e) => {
+            await this.model.logout();
+            eventHub.emit('logout');
         })
     }
 }

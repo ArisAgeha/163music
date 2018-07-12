@@ -293,9 +293,10 @@ main {
             align-items: center;
             font-size: 12px;
             margin-right: -1px;
-            min-height: 155px;
+            min-height: 200px;
 
             .createList,
+            .goToPicwall,
             .setCover{
                 width: 160px;
                 height: 32px;
@@ -306,6 +307,12 @@ main {
                 color: #1989fa;
                 margin-bottom: 14px;
                 cursor: pointer;
+            }
+
+            .goToPicwall {
+                color: #14da25;
+                background-color: rgba(15, 245, 35, 0.06);
+                border-color: #14da25;
             }
 
             .searchList {

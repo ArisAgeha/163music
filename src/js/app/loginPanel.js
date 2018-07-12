@@ -24,6 +24,7 @@ let controller = {
     bindEvent() {
         this.watchSignup();
         this.watchLogin();
+        this.watchLogout();
     },
 
     watchSignup() {
@@ -108,6 +109,13 @@ let controller = {
     showUserPanel() {
         eventHub.emit('isLogin');
         $(this.view.el).removeClass('show').siblings().addClass('show');
+    },
+
+    watchLogout() {
+        eventHub.on('logout', () => {
+            $(this.view.el).addClass('show').siblings().removeClass('show');
+            $(this.view.el).find('.login-password-input').val('');
+        })
     }
 }
 

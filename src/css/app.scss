@@ -232,11 +232,23 @@ main {
         }
         .userPanel {
             display: none;
-            margin:0 10px;
             width: 100%;
+            flex-direction: column;
+
+            .logoutButton {
+                width: 100%;
+                min-height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #ff6161;
+                background-color: rgba(255, 240, 240, 0.8);
+                font-size: 16px;
+            }
 
             .myCollection {
                 width: 100%;
+                padding:0 10px;
             }
 
             .myCollection > li {
