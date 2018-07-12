@@ -185,13 +185,14 @@ let dataHub = require('./dataHub.js');
                 let {id, targetListName} = data;
                 let targetListData = this.model.collectionList[targetListName]; 
                 let collectionID = targetListData[0].collectionID;
-                
                 targetListData.push(id);
                 let put = targetListData.filter((item) => {
+                    console.log(item);
+                    console.warn(typeof(item));
                     return (typeof(item) === 'string')
                 })
                 let songData = AV.Object.createWithoutData('CollectionList', collectionID);
-                await songData.save({'songList': put});
+                let result = await songData.save({'songList': put});
             })
         },
 

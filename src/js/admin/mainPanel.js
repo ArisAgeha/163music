@@ -25,6 +25,7 @@ let dataHub = require('./dataHub.js');
 
         async requireSongList() {
             let queryList = new AV.Query('SongList');
+            queryList.limit(1000);
             await queryList.find().then((list) => {
                 for (let i = 0; i < list.length; i++) {
                     let obj = {...list[i].attributes};
@@ -105,14 +106,12 @@ let dataHub = require('./dataHub.js');
                 for (let key in collectionList) {
                     let tbody = $(`<tbody class=_${key}></tbody>`);
                     let table = $(this.view.el).find('.table');
-
                     if (collectionList[key]){
                         for(let songID of collectionList[key]) {
                             if (typeof songID === 'object') {
                                 tbody.prop('id', songID.collectionID);
                                 continue;
                             }
-
                             let songInfo = this.model.songList[songID] || {};
                             let trString = this.view.template
                                 .replace('__name__', songInfo.name || '已删除')
