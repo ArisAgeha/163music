@@ -1,7 +1,7 @@
 # just a music player demo
 
 ## function:
-### app
+### App (/index.html)
 - User Account
   - sign up / login / logout
   - editable music collection list
@@ -20,12 +20,12 @@
   - play order list
   - add song to user's collection list
   
-### song admin system
+### Song Admin System (/admin.html)
   - add new collection list to server
   - upload and add new song to collection list in server
   - edit song information (song name, artist, album, cover picture)
   - delete song from collection list
 
-### picwall
+### Picturl Wall (/picwall.html)
   - a small website to save/show picture
   - click picture to copy url to clipboard!
