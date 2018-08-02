@@ -1,6 +1,6 @@
 # just a music player demo
 
-##function:
+## function:
 ### app
 - User Account
   - sign up / login / logout
