@@ -1,5 +1,4 @@
 let AV = require('./app-leancloud.js');
-let $ = require('jquery');
 let eventHub = require('./eventHub.js');
 let dataHub = require('./dataHub.js');
 

@@ -1,4 +1,3 @@
-let $ = require('jquery');
 watchTabs();
 watchToplaylistMenu();
 watchPlayControllerMenu();

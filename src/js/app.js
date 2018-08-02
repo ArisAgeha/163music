@@ -6,3 +6,4 @@ require('./app/collectionViewer.js');
 require('./app/musicPlayer.js');
 require('./app/userPanel.js');
 require('./app/loginPanel.js')
+
