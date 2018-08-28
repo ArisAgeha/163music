@@ -35,6 +35,11 @@ let model = {
     },
 
     async queryInitData() {
+        console.log(AV.User.current())
+        console.log(AV.User.current())
+        console.log(AV.User.current())
+        console.log(AV.User.current())
+        console.log(AV.User.current())
         let query = new AV.Query('UserList');
         query.contains('userID', AV.User.current().id);
         return await query.find().then(function(results) {

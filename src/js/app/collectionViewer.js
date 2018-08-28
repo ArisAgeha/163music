@@ -73,10 +73,10 @@ let controller = {
             } else {
                 listData = await this.model.queryUserListData(data.id);
             }
-            listData.attributes.coverLink = listData.attributes.coverLink || 'http://pbeu96c1d.bkt.clouddn.com/14.jpg'
+            listData.attributes.coverLink = listData.attributes.coverLink || 'http://pbeu96c1d.bkt.clouddn.com/014.png'
 
             coverImg.prop("src", listData.attributes.coverLink);
-            bgCover.css('background-image', `url("${listData.attributes.coverLink}")` || "url('http://pbeu96c1d.bkt.clouddn.com/14.jpg')");
+            bgCover.css('background-image', `url("${listData.attributes.coverLink}")` || "url('http://pbeu96c1d.bkt.clouddn.com/014.png')");
             collectionTitle.text(listData.attributes.collectionName);
 
             let IDs = [];

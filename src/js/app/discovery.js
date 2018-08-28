@@ -59,7 +59,7 @@ let controller = {
                 src: item.attributes.coverLink,
                 itemName: item.attributes.collectionName
             }
-            if (item.attributes.coverLink === 'undefined' || !item.attributes.coverLink) data.src = 'http://pbeu96c1d.bkt.clouddn.com/2.jpg';
+            if (item.attributes.coverLink === 'undefined' || !item.attributes.coverLink) data.src = 'http://pbeu96c1d.bkt.clouddn.com/014.png';
             this.view.render(target, data);
         }
         for (let item of this.model.lastestSong) {
@@ -69,7 +69,7 @@ let controller = {
                 src: item.attributes.cover,
                 itemName: item.attributes.name
             }
-            if (item.attributes.cover === 'undefined') data.src = 'http://pbeu96c1d.bkt.clouddn.com/14.jpg';  
+            if (item.attributes.cover === 'undefined') data.src = 'http://pbeu96c1d.bkt.clouddn.com/014.png';  
             this.view.render(target, data);
         }
     },
