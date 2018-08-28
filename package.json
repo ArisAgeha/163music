@@ -5,8 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --watch --compress --mode production",
-    "server": "webpack-dev-server --compress --mode production "
+    "start": "webpack --watch --mode production",
+    "server": "webpack-dev-server --mode production "
   },
   "keywords": [],
   "author": "",
